@@ -188,22 +188,25 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 </nav>
 
 <section id="comment">
-<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/2014/11/09/Android异步消息机制完全解析/" data-title="Android异步消息机制完全解析" data-url="http://yoursite.com/2014/11/09/Android异步消息机制完全解析/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jackhai"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- 多说公共JS代码 end -->
+
+<!-- Gitment JS代码 start -->
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '页面 ID', // 可选。默认为 location.href
+  owner: 'jackhai9',
+  repo: 'jackhai9.github.io',
+  oauth: {
+    client_id: '58885a09b9ce2fc5394e',
+    client_secret: 'ce532ef0a016f796262b0a63d5e54acbe3146524',
+  },
+})
+gitment.render('container')
+</script>
+<!-- Gitment JS代码 end -->
+
 </section>
 
 
@@ -291,7 +294,7 @@ var duoshuoQuery = {short_name:"jackhai"};
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2016 李振海
+  &copy; 2017 李振海
   
 </div>
 <div class="clearfix"></div></footer>
