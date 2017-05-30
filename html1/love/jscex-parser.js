@@ -164,9 +164,12 @@ var OPERATORS = array_to_hash([
         "/",
         "%",
         ">>",
-        "<<", "="">>>",
-        "<", "="">",
-        "<=", "="">=",
+        "<<",
+        ">>>",
+        "<",
+        ">",
+        "<=",
+        ">=",
         "==",
         "===",
         "!=",
@@ -179,7 +182,8 @@ var OPERATORS = array_to_hash([
         "*=",
         "%=",
         ">>=",
-        "<<=", "="">>>=",
+        "<<=",
+        ">>>=",
         "|=",
         "^=",
         "&=",
@@ -211,8 +215,32 @@ function is_letter(ch) {
 
 function is_digit(ch) {
         ch = ch.charCodeAt(0);
-        return ch >= 48 && ch <= 57;="" xxx:="" find="" out="" if="" "unicodedigit"="" means="" something="" else="" than="" 0..9="" };="" function="" is_alphanumeric_char(ch)="" {="" return="" is_digit(ch)="" ||="" is_letter(ch);="" is_unicode_combining_mark(ch)="" unicode.non_spacing_mark.test(ch)="" unicode.space_combining_mark.test(ch);="" is_unicode_connector_punctuation(ch)="" unicode.connector_punctuation.test(ch);="" is_identifier_start(ch)="" ch="=" "$"="" "_"="" is_identifier_char(ch)="" "\u200c"="" zero-width="" non-joiner="" <zwnj="">
-                || ch == "\u200d" // zero-width joiner <zwj> (in my ECMA-262 PDF, this is also 200c)
+        return ch >= 48 && ch <= 57; //XXX: find out if "UnicodeDigit" means something else than 0..9
+};
+
+function is_alphanumeric_char(ch) {
+        return is_digit(ch) || is_letter(ch);
+};
+
+function is_unicode_combining_mark(ch) {
+        return UNICODE.non_spacing_mark.test(ch) || UNICODE.space_combining_mark.test(ch);
+};
+
+function is_unicode_connector_punctuation(ch) {
+        return UNICODE.connector_punctuation.test(ch);
+};
+
+function is_identifier_start(ch) {
+        return ch == "$" || ch == "_" || is_letter(ch);
+};
+
+function is_identifier_char(ch) {
+        return is_identifier_start(ch)
+                || is_unicode_combining_mark(ch)
+                || is_digit(ch)
+                || is_unicode_connector_punctuation(ch)
+                || ch == "\u200c" // zero-width non-joiner <ZWNJ>
+                || ch == "\u200d" // zero-width joiner <ZWJ> (in my ECMA-262 PDF, this is also 200c)
         ;
 };
 
@@ -594,7 +622,7 @@ var ASSIGNMENT = (function(a, ret, i){
         }
         return ret;
 })(
-        ["+=", "-=", "/=", "*=", "%=", ">>=", "<<=", "="">>>=", "|=", "^=", "&="],
+        ["+=", "-=", "/=", "*=", "%=", ">>=", "<<=", ">>>=", "|=", "^=", "&="],
         { "=": true },
         0
 );
@@ -615,8 +643,8 @@ var PRECEDENCE = (function(a, ret){
                 ["^"],
                 ["&"],
                 ["==", "===", "!=", "!=="],
-                ["<", "="">", "<=", "="">=", "in", "instanceof"],
-                [">>", "<<", "="">>>"],
+                ["<", ">", "<=", ">=", "in", "instanceof"],
+                [">>", "<<", ">>>"],
                 ["+", "-"],
                 ["*", "/", "%"]
         ],
@@ -1321,4 +1349,4 @@ scope.set_logger = function (logger) {
 };
 */
 
-})();</",></=",></",></=",></zwj></=></=",></=",></",></",></mihai.bazon@gmail.com></mihai.bazon@gmail.com>
+})();

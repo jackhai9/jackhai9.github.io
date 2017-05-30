@@ -128,7 +128,9 @@
             },
 
             _visitStatements: function (statements, stmts, index) {
-                if (arguments.length <= 2)="" index="0;" if="" (index="">= statements.length) {
+                if (arguments.length <= 2) index = 0;
+
+                if (index >= statements.length) {
                     stmts.push({ type: "normal" });
                     return this;
                 }
@@ -1028,7 +1030,335 @@
 
                 "object": function (ast) {
                     var items = ast[1];
-                    if (items.length <= 0)="" {="" this._write("{="" }");="" }="" else="" this._writeline("{");="" this._indentlevel++;="" for="" (var="" i="0;" <="" items.length;="" i++)="" this._writeindents()="" ._write(stringify(items[i][0])="" +="" ":="" ")="" ._visitraw(items[i][1]);="" if="" (i="" items.length="" -="" 1)="" this._writeline(",");="" this._writeline("");="" this._indentlevel--;="" this._writeindents()._write("}");="" },="" "array":="" function="" (ast)="" this._write("[");="" var="" items="ast[1];" this._visitraw(items[i]);="" this._write(",="" ");="" this._write("]");="" "num":="" this._write(ast[1]);="" "regexp":="" this._write("="" "="" ast[1]="" ast[2]);="" "string":="" this._write(stringify(ast[1]));="" "function":="" this._visitrawfunction(ast);="" "defun":="" "return":="" (this._pos.infunction)="" this._write("return");="" value="ast[1];" (value)="" ")._visitraw(value);="" this._write(";");="" this._write("return="" ")._visitjscex({="" type:="" "return",="" stmt:="" ast="" })._write(";");="" "for":="" this._write("for="" (");="" setup="ast[1];" (setup)="" this._visitraw(setup);="" (setup[0]="" !="var" )="" this._write(";="" condition="ast[2];" (condition)="" this._visitraw(condition);="" update="ast[3];" (update)="" this._visitraw(update);="" this._write(")="" currinloop="this._pos.inLoop;" this._pos.inloop="true;" body="ast[4];" this._visitrawbody(body);="" "for-in":="" declare="ast[1];" (declare[0]="=" "var")="" ["var",="" [["m"]]]="" this._write("var="" declare[1][0][0]);="" this._visitraw(declare);="" in="" ")._visitraw(ast[3])._write(")="" "block":="" this._writeline("{")="" this._visitrawstatements(ast[1]);="" ._write("}");="" "while":="" this._write("while="" (")._visitraw(condition)._write(")="" ")._visitrawbody(body);="" "do":="" this._write("do="" (body[0]="=" "block")="" this._writeline()._writeindents();="" (")._visitraw(condition)._write(");");="" "if":="" thenpart="ast[2];" this._write("if="" ")._visitrawbody(thenpart);="" elsepart="ast[3];" (elsepart)="" (thenpart[0]="=" this._writeline("")="" ._writeindents();="" (elsepart[0]="=" "if")="" this._write("else="" ")._visitraw(elsepart);="" ")._visitrawbody(elsepart);="" "break":="" (this._pos.inloop="" ||="" this._pos.inswitch)="" this._write("break;");="" "break",="" "continue":="" (this._pos.inloop)="" this._write("continue;");="" "continue",="" "throw":="" pos="this._pos;" (pos.intry="" pos.infunction)="" this._write("throw="" ")._visitraw(ast[1])._write(";");="" "throw",="" "conditional":="" this._write("(")._visitraw(ast[1])._write(")="" ?="" (")._visitraw(ast[2])._write(")="" :="" (")._visitraw(ast[3])._write(")");="" "try":="" this._writeline("try="" {");="" currintry="this._pos.inTry;" this._pos.intry="true;" catchclause="ast[2];" finallystatements="ast[3];" (catchclause)="" ._writeline("}="" catch="" ("="" catchclause[0]="" {")="" this._visitrawstatements(catchclause[1]);="" (finallystatements)="" finally="" this._visitrawstatements(finallystatements);="" "switch":="" this._write("switch="" (")._visitraw(ast[1])._writeline(")="" currinswitch="this._pos.inSwitch;" this._pos.inswitch="true;" cases="ast[2];" cases.length;="" c="cases[i];" this._writeindents();="" (c[0])="" this._write("case="" ")._visitraw(c[0])._writeline(":");="" this._writeline("default:");="" this._visitrawstatements(c[1]);="" _isjscexpattern(ast)="" (ast[0]="" return="" false;="" evalname="ast[1];" (evalname[0]="" evalname[1]="" compilecall="ast[2][0];" (!compilecall="" compilecall[0]="" compilemethod="compileCall[1];" (!compilemethod="" compilemethod[0]="" compilemethod[2]="" jscexname="compileMethod[1];" (!jscexname="" jscexname[0]="" jscexname[1]="" builder="compileCall[2][0];" (!builder="" builder[0]="" func="compileCall[2][1];" (!func="" func[0]="" true;="" _compilejscexpattern(ast,="" indent)="" buildername="ast[2][0][2][0][1];" funcast="ast[2][0][2][1];" binder="root.binders[builderName];" jscextreegenerator="new" jscextreegenerator(binder);="" jscexast="jscexTreeGenerator.generate(funcAst);" codegenerator="new" codegenerator(buildername,="" binder,="" indent);="" newcode="codeGenerator.generate(funcAst[2]," jscexast);="" newcode;="" compile(buildername,="" func)="" funccode="func.toString();" evalcode="eval(Jscex.compile(" stringify(buildername)="" ",="" "))"="" evalcodeast="root.parse(evalCode);" [="" "toplevel",="" "stat",="" "call",="" ...="" ]="" evalast="evalCodeAst[1][0][1];" 0);="" root.logger.debug(funccode="" "\n\n="">>>\n\n" + newCode);
+                    if (items.length <= 0) {
+                        this._write("{ }");
+                    } else {
+                        this._writeLine("{");
+                        this._indentLevel++;
+                        
+                        for (var i = 0; i < items.length; i++) {
+                            this._writeIndents()
+                                ._write(stringify(items[i][0]) + ": ")
+                                ._visitRaw(items[i][1]);
+                            
+                            if (i < items.length - 1) {
+                                this._writeLine(",");
+                            } else {
+                                this._writeLine("");
+                            }
+                        }
+                        
+                        this._indentLevel--;
+                        this._writeIndents()._write("}");
+                    }
+                },
+
+                "array": function (ast) {
+                    this._write("[");
+
+                    var items = ast[1];
+                    for (var i = 0; i < items.length; i++) {
+                        this._visitRaw(items[i]);
+                        if (i < items.length - 1) this._write(", ");
+                    }
+
+                    this._write("]");
+                },
+
+                "num": function (ast) {
+                    this._write(ast[1]);
+                },
+
+                "regexp": function (ast) {
+                    this._write("/" + ast[1] + "/" + ast[2]);
+                },
+
+                "string": function (ast) {
+                    this._write(stringify(ast[1]));
+                },
+
+                "function": function (ast) {
+                    this._visitRawFunction(ast);
+                },
+
+                "defun": function (ast) {
+                    this._visitRawFunction(ast);
+                },
+
+                "return": function (ast) {
+                    if (this._pos.inFunction) {
+                        this._write("return");
+                        var value = ast[1];
+                        if (value) this._write(" ")._visitRaw(value);
+                        this._write(";");
+                    } else {
+                        this._write("return ")._visitJscex({ type: "return", stmt: ast })._write(";");
+                    }
+                },
+                
+                "for": function (ast) {
+                    this._write("for (");
+
+                    var setup = ast[1];
+                    if (setup) {
+                        this._visitRaw(setup);
+                        if (setup[0] != "var") {
+                            this._write("; ");
+                        } else {
+                            this._write(" ");
+                        }
+                    } else {
+                        this._write("; ");
+                    }
+
+                    var condition = ast[2];
+                    if (condition) this._visitRaw(condition);
+                    this._write("; ");
+
+                    var update = ast[3];
+                    if (update) this._visitRaw(update);
+                    this._write(") ");
+
+                    var currInLoop = this._pos.inLoop;
+                    this._pos.inLoop = true;
+
+                    var body = ast[4];
+                    this._visitRawBody(body);
+
+                    this._pos.inLoop = currInLoop;
+                },
+
+                "for-in": function (ast) {
+                    this._write("for (");
+
+                    var declare = ast[1];
+                    if (declare[0] == "var") { // declare == ["var", [["m"]]]
+                        this._write("var " + declare[1][0][0]);
+                    } else {
+                        this._visitRaw(declare);
+                    }
+                    
+                    this._write(" in ")._visitRaw(ast[3])._write(") ");
+
+                    var body = ast[4];
+                    this._visitRawBody(body);
+                },
+
+                "block": function (ast) {
+                    this._writeLine("{")
+                    this._indentLevel++;
+
+                    this._visitRawStatements(ast[1]);
+                    this._indentLevel--;
+
+                    this._writeIndents()
+                        ._write("}");
+                },
+
+                "while": function (ast) {
+                    var condition = ast[1];
+                    var body = ast[2];
+
+                    var currInLoop = this._pos.inLoop
+                    this._pos.inLoop = true;
+
+                    this._write("while (")._visitRaw(condition)._write(") ")._visitRawBody(body);
+
+                    this._pos.inLoop = currInLoop;
+                },
+
+                "do": function (ast) {
+                    var condition = ast[1];
+                    var body = ast[2];
+
+                    var currInLoop = this._pos.inLoop;
+                    this._pos.inLoop = true;
+
+                    this._write("do ")._visitRawBody(body);
+
+                    this._pos.inLoop = currInLoop;
+
+                    if (body[0] == "block") {
+                        this._write(" ");
+                    } else {
+                        this._writeLine()._writeIndents();
+                    }
+
+                    this._write("while (")._visitRaw(condition)._write(");");
+                },
+
+                "if": function (ast) {
+                    var condition = ast[1];
+                    var thenPart = ast[2];
+
+                    this._write("if (")._visitRaw(condition)._write(") ")._visitRawBody(thenPart);
+
+                    var elsePart = ast[3];
+                    if (elsePart) {
+                        if (thenPart[0] == "block") {
+                            this._write(" ");
+                        } else {
+                            this._writeLine("")
+                                ._writeIndents();
+                        }
+
+                        if (elsePart[0] == "if") {
+                            this._write("else ")._visitRaw(elsePart);
+                        } else {
+                            this._write("else ")._visitRawBody(elsePart);
+                        }
+                    }
+                },
+
+                "break": function (ast) {
+                    if (this._pos.inLoop || this._pos.inSwitch) {
+                        this._write("break;");
+                    } else {
+                        this._write("return ")._visitJscex({ type: "break", stmt: ast })._write(";");
+                    }
+                },
+
+                "continue": function (ast) {
+                    if (this._pos.inLoop) {
+                        this._write("continue;");
+                    } else {
+                        this._write("return ")._visitJscex({ type: "continue", stmt: ast })._write(";");
+                    }
+                },
+
+                "throw": function (ast) {
+                    var pos = this._pos;
+                    if (pos.inTry || pos.inFunction) {
+                        this._write("throw ")._visitRaw(ast[1])._write(";");
+                    } else {
+                        this._write("return ")._visitJscex({ type: "throw", stmt: ast })._write(";");
+                    }
+                },
+
+                "conditional": function (ast) {
+                    this._write("(")._visitRaw(ast[1])._write(") ? (")._visitRaw(ast[2])._write(") : (")._visitRaw(ast[3])._write(")");
+                },
+
+                "try": function (ast) {
+
+                    this._writeLine("try {");
+                    this._indentLevel++;
+
+                    var currInTry = this._pos.inTry;
+                    this._pos.inTry = true;
+
+                    this._visitRawStatements(ast[1]);
+                    this._indentLevel--;
+
+                    this._pos.inTry = currInTry;
+
+                    var catchClause = ast[2];
+                    var finallyStatements = ast[3];
+
+                    if (catchClause) {
+                        this._writeIndents()
+                            ._writeLine("} catch (" + catchClause[0] + ") {")
+                        this._indentLevel++;
+
+                        this._visitRawStatements(catchClause[1]);
+                        this._indentLevel--;
+                    }
+
+                    if (finallyStatements) {
+                        this._writeIndents()
+                            ._writeLine("} finally {");
+                        this._indentLevel++;
+
+                        this._visitRawStatements(finallyStatements);
+                        this._indentLevel--;
+                    }                
+
+                    this._writeIndents()
+                        ._write("}");
+                },
+
+                "switch": function (ast) {
+                    this._write("switch (")._visitRaw(ast[1])._writeLine(") {");
+                    this._indentLevel++;
+
+                    var currInSwitch = this._pos.inSwitch;
+                    this._pos.inSwitch = true;
+
+                    var cases = ast[2];
+                    for (var i = 0; i < cases.length; i++) {
+                        var c = cases[i];
+                        this._writeIndents();
+
+                        if (c[0]) {
+                            this._write("case ")._visitRaw(c[0])._writeLine(":");
+                        } else {
+                            this._writeLine("default:");
+                        }
+                        this._indentLevel++;
+
+                        this._visitRawStatements(c[1]);
+                        this._indentLevel--;
+                    }
+                    this._indentLevel--;
+
+                    this._pos.inSwitch = currInSwitch;
+
+                    this._writeIndents()
+                        ._write("}");
+                }
+            }
+        }
+
+        function _isJscexPattern(ast) {
+            if (ast[0] != "call") return false;
+            
+            var evalName = ast[1];
+            if (evalName[0] != "name" || evalName[1] != "eval") return false;
+
+            var compileCall = ast[2][0];
+            if (!compileCall || compileCall[0] != "call") return false;
+
+            var compileMethod = compileCall[1];
+            if (!compileMethod || compileMethod[0] != "dot" || compileMethod[2] != "compile") return false;
+
+            var jscexName = compileMethod[1];
+            if (!jscexName || jscexName[0] != "name" || jscexName[1] != "Jscex") return false;
+
+            var builder = compileCall[2][0];
+            if (!builder || builder[0] != "string") return false;
+
+            var func = compileCall[2][1];
+            if (!func || func[0] != "function") return false;
+
+            return true;
+        }
+        
+        function _compileJscexPattern(ast, indent) {
+
+            var builderName = ast[2][0][2][0][1];
+            var funcAst = ast[2][0][2][1];
+            var binder = root.binders[builderName];
+
+            var jscexTreeGenerator = new JscexTreeGenerator(binder);
+            var jscexAst = jscexTreeGenerator.generate(funcAst);
+
+            var codeGenerator = new CodeGenerator(builderName, binder, indent);
+            var newCode = codeGenerator.generate(funcAst[2], jscexAst);
+
+            return newCode;
+        }
+        
+        function compile(builderName, func) {
+
+            var funcCode = func.toString();
+            var evalCode = "eval(Jscex.compile(" + stringify(builderName) + ", " + funcCode + "))"
+            var evalCodeAst = root.parse(evalCode);
+
+            // [ "toplevel", [ [ "stat", [ "call", ... ] ] ] ]
+            var evalAst = evalCodeAst[1][0][1];
+            var newCode = _compileJscexPattern(evalAst, 0);
+
+            root.logger.debug(funcCode + "\n\n>>>\n\n" + newCode);
             
             return codeGenerator(newCode);
         };
@@ -1074,4 +1404,3 @@
     }
 
 })();
-</=></=>

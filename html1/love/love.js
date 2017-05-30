@@ -1,4 +1,4 @@
-(function(window){
+﻿(function(window){
 
     function random(min, max) {
         return min + Math.floor(Math.random() * (max - min + 1));
@@ -442,7 +442,53 @@
     Branch.prototype = {
         grow: function() {
             var s = this, p; 
-            if (s.len <= 2="" s.length)="" {="" p="bezier([s.point1," s.point2,="" s.point3],="" s.len="" *="" s.t);="" s.draw(p);="" +="1;" s.radius="" }="" else="" s.tree.removebranch(s);="" s.tree.addbranchs(s.branchs);="" },="" draw:="" function(p)="" var="" s="this;" ctx="s.tree.ctx;" ctx.save();="" ctx.beginpath();="" ctx.fillstyle="rgb(35, 31, 32)" ;="" ctx.shadowcolor="rgb(35, 31, 32)" ctx.shadowblur="2;" ctx.moveto(p.x,="" p.y);="" ctx.arc(p.x,="" p.y,="" s.radius,="" 0,="" math.pi);="" ctx.closepath();="" ctx.fill();="" ctx.restore();="" bloom="function(tree," point,="" figure,="" color,="" alpha,="" angle,="" scale,="" place,="" speed)="" this.tree="tree;" this.point="point;" this.color="color" ||="" 'rgb(255,'="" random(0,="" 255)="" ','="" ')';="" this.alpha="alpha" random(0.3,="" 1);="" this.angle="angle" 360);="" this.scale="scale" 0.1;="" this.place="place;" this.speed="speed;" this.figure="figure;" bloom.prototype="{" setfigure:="" function(figure)="" flower:="" function()="" s.draw();="" s.scale="" if="" (s.scale=""> 1) {
+            if (s.len <= s.length) {
+                p = bezier([s.point1, s.point2, s.point3], s.len * s.t);
+                s.draw(p);
+                s.len += 1;
+                s.radius *= 0.97;
+            } else {
+                s.tree.removeBranch(s);
+                s.tree.addBranchs(s.branchs);
+            }
+        },
+        draw: function(p) {
+            var s = this;
+            var ctx = s.tree.ctx;
+            ctx.save();
+        	ctx.beginPath();
+        	ctx.fillStyle = 'rgb(35, 31, 32)';
+            ctx.shadowColor = 'rgb(35, 31, 32)';
+            ctx.shadowBlur = 2;
+        	ctx.moveTo(p.x, p.y);
+        	ctx.arc(p.x, p.y, s.radius, 0, 2 * Math.PI);
+        	ctx.closePath();
+        	ctx.fill();
+        	ctx.restore();
+        }
+    }
+
+    Bloom = function(tree, point, figure, color, alpha, angle, scale, place, speed) {
+        this.tree = tree;
+        this.point = point;
+        this.color = color || 'rgb(255,' + random(0, 255) + ',' + random(0, 255) + ')';
+        this.alpha = alpha || random(0.3, 1);
+        this.angle = angle || random(0, 360);
+        this.scale = scale || 0.1;
+        this.place = place;
+        this.speed = speed;
+
+        this.figure = figure;
+    }
+    Bloom.prototype = {
+        setFigure: function(figure) {
+            this.figure = figure;
+        },
+        flower: function() {
+            var s = this;
+            s.draw();
+            s.scale += 0.1;
+            if (s.scale > 1) {
                 s.tree.removeBloom(s);
             }
         },
@@ -485,4 +531,3 @@
     window.Tree = Tree;
 
 })(window);
-</=>
