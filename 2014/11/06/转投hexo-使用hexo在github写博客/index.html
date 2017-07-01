@@ -101,20 +101,46 @@ var _hmt = _hmt || [];
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo n  #开写</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g  #生成</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d  #部署，可与hexo g合并为hexo d -g</span><br></pre></td></tr></table></figure>
-<h3 id="安装和使用-Windows下-："><a href="#安装和使用-Windows下-：" class="headerlink" title="安装和使用(Windows下)："></a>安装和使用(Windows下)：</h3><p>###一、准备工作</p>
-<ol>
+<h3 id="安装和使用-Windows下-："><a href="#安装和使用-Windows下-：" class="headerlink" title="安装和使用(Windows下)："></a>安装和使用(Windows下)：</h3><h3 id="一、准备工作"><a href="#一、准备工作" class="headerlink" title="一、准备工作"></a>一、准备工作</h3><ol>
 <li>安装Node.js，安装Git，还需要GitHub账号。</li>
 <li>建立与你的GitHub用户名对应的仓库，仓库名必须为『your_user_name.github.com』，添加SSH公钥 <a href="https://help.github.com/articles/generating-ssh-keys/" target="_blank" rel="external">这是方法</a>。</li>
-<li>以上完成后，使用 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br><span class="line">``` 验证是否成功。如出现Error: Permission denied (publickey)，则[点这里](https://help.github.com/articles/error-permission-denied-publickey/)。</span><br><span class="line"></span><br><span class="line">###二、安装及初始化</span><br><span class="line"></span><br><span class="line">1. 在nodejs安装目录下使用cmd命令安装Hexo：</span><br></pre></td></tr></table></figure>
+<li>以上完成后，使用 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>npm install -g hexo<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2. 在你喜欢的地方新建一个目录，用来初始化你的博客和存放你以后的文章。</span><br><span class="line">3. 进入你新建的目录(以后的命令基本上都在这个目录下执行)，打开cmd：</span><br></pre></td></tr></table></figure></p>
-<p>hexo init<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">好啦，至此，全部安装工作已经完成！</span><br><span class="line"></span><br><span class="line">###三、本地启动,预览下</span><br><span class="line"></span><br><span class="line">1. 生成静态页面：</span><br></pre></td></tr></table></figure></p>
-<p>hexo generate<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2. 本地启动：</span><br></pre></td></tr></table></figure></p>
-<p>hexo server<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">浏览器输入[http://localhost:4000](http://localhost:4000)就可以看到效果。</span><br><span class="line"></span><br><span class="line">###四、写文章</span><br><span class="line"></span><br><span class="line">1. 新建文章</span><br></pre></td></tr></table></figure></p>
-<p>hexo new [layout] “postName”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">执行new命令后，生成指定名称的文章至hexo\source\_posts\postName.md。</span><br><span class="line"></span><br><span class="line">2. 用你喜欢的编辑器打开文件 hexo\source\_posts\postName.md 开始尽情书写吧。。。关于markdown语法，可以参考[这里](http://wowubuntu.com/markdown/)。</span><br><span class="line"></span><br><span class="line">3. 写完后，</span><br></pre></td></tr></table></figure></p>
-<p>hexo server<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">，然后访问[localhost:4000](localhost:4000)预览效果。(退出server用Ctrl+c)。然后</span><br></pre></td></tr></table></figure></p>
-<p>hexo deploy<br>```<br>同步到github。访问网站看看效果。 关于deploy，可以参考<a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">这里</a>。</p>
+<p>验证是否成功。如出现Error: Permission denied (publickey)，则<a href="https://help.github.com/articles/error-permission-denied-publickey/" target="_blank" rel="external">点这里</a>。</p>
+<h3 id="二、安装及初始化"><a href="#二、安装及初始化" class="headerlink" title="二、安装及初始化"></a>二、安装及初始化</h3><ol>
+<li><p>在nodejs安装目录下使用cmd命令安装Hexo：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在你喜欢的地方新建一个目录，用来初始化你的博客和存放你以后的文章。</p>
+</li>
+<li>进入你新建的目录(以后的命令基本上都在这个目录下执行)，打开cmd：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>好啦，至此，全部安装工作已经完成！</p>
+<h3 id="三、本地启动-预览下"><a href="#三、本地启动-预览下" class="headerlink" title="三、本地启动,预览下"></a>三、本地启动,预览下</h3><ol>
+<li><p>生成静态页面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>本地启动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>浏览器输入<a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a>就可以看到效果。</p>
+<h3 id="四、写文章"><a href="#四、写文章" class="headerlink" title="四、写文章"></a>四、写文章</h3><ol>
+<li>新建文章<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new [layout] &quot;postName&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>执行new命令后，生成指定名称的文章至hexo\source_posts\postName.md。</p>
+<ol>
+<li><p>用你喜欢的编辑器打开文件 hexo\source_posts\postName.md 开始尽情书写吧。。。关于markdown语法，可以参考<a href="http://wowubuntu.com/markdown/" target="_blank" rel="external">这里</a>。</p>
+</li>
+<li><p>写完后，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>然后访问<a href="localhost:4000" target="_blank" rel="external">localhost:4000</a>预览效果。(退出server用Ctrl+c)。然后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure></p>
+<p>同步到github。访问网站看看效果。 关于deploy，可以参考<a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">这里</a>。</p>
 
       
     </div>
