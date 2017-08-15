@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>转载 | Jackhai</title>
+  <title>反向代理 | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -74,7 +74,7 @@ var _hmt = _hmt || [];
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title category">转载</h2>
+<h2 class="archive-title tag">反向代理</h2>
 
 
   
@@ -84,65 +84,23 @@ var _hmt = _hmt || [];
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-11-09T13:46:15.000Z"><a href="/2014/11/09/Android异步消息机制完全解析/">Nov 9 2014</a></time>
+        <time datetime="2016-05-20T09:58:11.000Z"><a href="/2016/05/20/Nginx小结/">May 20 2016</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/11/09/Android异步消息机制完全解析/">Android异步消息机制完全解析</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <blockquote>
-<p>开始进入正题，我们都知道，Android UI是线程不安全的，如果在子线程中尝试进行UI操作，程序就有可能会崩溃。相信大家在日常的工作当中都会经常遇到这个问题，解决的方案应该也是早已烂熟于心，即创建一个Message对象，然后借助Handler发送出去，之后在Handler的handleMessage()方法中获得刚才发送的Message对象，然后在这里进行UI操作就不会崩溃了。</p>
-</blockquote>
-<p>这种处理方式被称为<strong>异步</strong>消息处理线程，虽然我相信大家都会用，可是你知道它背后的原理是什么样的吗？今天我们就来一起深入探究一下Handler和Message背后的秘密。<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/11/09/Android异步消息机制完全解析/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-11-07T18:25:51.000Z"><a href="/2014/11/08/你不必这么着急/">Nov 8 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/11/08/你不必这么着急/">你不必这么着急</a></h1>
+    <h1 class="title"><a href="/2016/05/20/Nginx小结/">Nginx小结</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>现在这个世界，似乎一切都在快速演进：各种年少暴富的新闻充斥着我们的眼球，软件开发世界到处是敏捷方法，甚至你最亲近的人都在催促你更快——谁谁谁都已经XX了，你将来怎么打算？所以，现在的学生找实习的时间越来越早，想速成的心态越来越重。<br>
+        <p>最近工作需要用到了Nginx，以前没怎么用过，找到一个不错的<a href="http://tengine.taobao.org/book/" target="_blank" rel="external">文档</a>。</p>
+<p>主要的用法就是反向代理和负载均衡。3台海外服务器通过Nginx进行代理，分别部署了3个Tomcat容器，用法上最主要就是Nginx的配置文件怎么配置的，基本不需要其他配置。简单好用，估计以后也需要加SSL模块实现https的访问。</p>
+
       
     </div>
     <footer>
       
-        
-          <div class="alignleft">
-            <a href="/2014/11/08/你不必这么着急/#more" class="more-link">Read More</a>
-          </div>
         
         
       
