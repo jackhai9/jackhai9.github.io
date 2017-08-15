@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>归档：2017 | Jackhai</title>
+  <title>关于服务的一些想法 | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="关于服务的一些想法"/>
   <meta property="og:site_name" content="Jackhai"/>
 
   
@@ -73,29 +73,27 @@ var _hmt = _hmt || [];
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">2017</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time datetime="2017-07-18T14:50:34.000Z"><a href="/2017/07/18/旅游小结/">Jul 18 2017</a></time>
+        <time datetime="2015-04-15T11:38:50.000Z"><a href="/2015/04/15/关于服务的一些想法/">Apr 15 2015</a></time>
       
       
   
-    <h1 class="title"><a href="/2017/07/18/旅游小结/">旅游小结</a></h1>
+    <h1 class="title">关于服务的一些想法</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>上海-乌镇-杭州 游记</p>
-<p>待续。。。</p>
+        <p>这次说的是58的Gaea服务，据说是SCF的开源版本。</p>
+<p>Gaea是支持跨平台具有高并发、高性能、高可靠性，并提供异步、多协议、事件驱动的中间层服务框架。相对于其它重量级的中间件，比如淘宝的dubbo，Gaea只做一件事，因此没有过多的项目依赖。目前来看是比较符合我们单工程架构的服务要求的，性能上足够了。</p>
+<p>Github地址：<a href="https://github.com/58code/Gaea" target="_blank" rel="external">https://github.com/58code/Gaea</a><br>对于想初步了解服务架构的同学可以多看看，里面提供的demo简单实用。客户端的编写和服务端的调用都蛮清晰的，流畅用起来是没有问题的。</p>
+<p>但是工作中发现了一些问题：</p>
+<p>1.单服务可能因为服务主机内存不足容易被清理掉。因为我们目前的单Gaea服务器上还有别的许多程序在跑，半个月左右就容易内存不足导致Gaea当掉，当然可以写脚本周期性监控内存，有问题发邮件出来并自动清理内存然后自动重启Gaea服务端，但是这样未免太弱鸡，好的方法是进行分布式部署，把Gaea服务放在多台主机上，调用时候实现类似fail-over机制，达到高可用效果。</p>
 
       
     </div>
@@ -103,6 +101,24 @@ var _hmt = _hmt || [];
       
         
         
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
       
       <div class="clearfix"></div>
     </footer>
@@ -110,49 +126,39 @@ var _hmt = _hmt || [];
 </article>
 
 
-
-
-  
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2017-05-30T06:12:47.000Z"><a href="/2017/05/30/端午节/">May 30 2017</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/05/30/端午节/">端午节</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>南方北方还是有点差距的。。。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
+<nav id="pagination" >
+    
+    <a href="/2016/05/11/许久后的回归/" class="alignleft prev" >上一页</a>
+    
+    
+    <a href="/2014/11/27/Eclipse的-Unhandled-event-loop-exception问题/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
 </nav>
+
+<section id="comment">
+
+<!-- Gitment JS代码 start -->
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '页面 ID', // 可选。默认为 location.href
+  owner: 'jackhai9',
+  repo: 'jackhai9.github.io',
+  oauth: {
+    client_id: '58885a09b9ce2fc5394e',
+    client_secret: 'ce532ef0a016f796262b0a63d5e54acbe3146524',
+  },
+})
+gitment.render('container')
+</script>
+<!-- Gitment JS代码 end -->
+
+</section>
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
