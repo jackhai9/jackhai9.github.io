@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>版本控制工具 | Jackhai</title>
+  <title>微信公众号和企业号开发 | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="微信公众号和企业号开发"/>
   <meta property="og:site_name" content="Jackhai"/>
 
   
@@ -73,37 +73,60 @@ var _hmt = _hmt || [];
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">版本控制工具</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-03-15T08:59:58.000Z"><a href="/2015/03/15/从SVN转到Git/">Mar 15 2015</a></time>
+        <time datetime="2016-05-20T13:36:31.000Z"><a href="/2016/05/20/微信公众号和企业号开发/">May 20 2016</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/03/15/从SVN转到Git/">从SVN转到Git</a></h1>
+    <h1 class="title">微信公众号和企业号开发</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>年后来了，部门要求版本控制工具都统一使用Git，之前学的终于可以派上用场了，哈哈。</p>
-<p>除了常规的add，commit，push，poll，branch，merge, 其他一些不常用的也已经忘记了，今天发现个介绍的比较详细的文档，学习了。</p>
-<p>Git使用文档见<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">这里</a>。</p>
+        <p>最近做了微信相关的开发，具体是微信公众号类型里面的订阅号，估计以后也会做企业号开发，提取出来了框架，见我的<a href="https://github.com/jackhai9" target="_blank" rel="external">GitHub</a>。</p>
+<p>架子都搭好了，建一些数据库表就可以跑起来，以后企业号开发不出意外也是会用这个框架。</p>
+<p>废话不多说，直接去看代码吧。</p>
 
       
     </div>
     <footer>
       
         
+  
+  <div class="categories">
+    <a href="/categories/技术/">技术</a>
+  </div>
+
         
+  
+  <div class="tags">
+    <a href="/tags/微信/">微信</a>, <a href="/tags/公众号/">公众号</a>, <a href="/tags/企业号/">企业号</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
       
       <div class="clearfix"></div>
     </footer>
@@ -111,15 +134,39 @@ var _hmt = _hmt || [];
 </article>
 
 
-
-
-  
-
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
+<nav id="pagination" >
+    
+    <a href="/2017/05/30/端午节/" class="alignleft prev" >上一页</a>
+    
+    
+    <a href="/2016/04/28/关于CI持续集成/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
 </nav>
+
+<section id="comment">
+
+<!-- Gitment JS代码 start -->
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '页面 ID', // 可选。默认为 location.href
+  owner: 'jackhai9',
+  repo: 'jackhai9.github.io',
+  oauth: {
+    client_id: '58885a09b9ce2fc5394e',
+    client_secret: 'ce532ef0a016f796262b0a63d5e54acbe3146524',
+  },
+})
+gitment.render('container')
+</script>
+<!-- Gitment JS代码 end -->
+
+</section>
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
