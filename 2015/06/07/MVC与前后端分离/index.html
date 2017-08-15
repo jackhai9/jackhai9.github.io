@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>重装系统 | Jackhai</title>
+  <title>MVC与前后端分离 | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="MVC与前后端分离"/>
   <meta property="og:site_name" content="Jackhai"/>
 
   
@@ -73,38 +73,62 @@ var _hmt = _hmt || [];
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">重装系统</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-11-19T16:13:40.000Z"><a href="/2014/11/20/加装SSD-重装MSDN英文版win7系统/">Nov 20 2014</a></time>
+        <time datetime="2015-06-07T11:53:50.000Z"><a href="/2015/06/07/MVC与前后端分离/">Jun 7 2015</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/11/20/加装SSD-重装MSDN英文版win7系统/">加装SSD+重装MSDN英文版win7系统</a></h1>
+    <h1 class="title">MVC与前后端分离</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>入手三星840evo 120G固态，这次确实没有让我失望。在<a href="msdn.itellyou.cn/">MSDN,我告诉你</a>下载了纯净win7 x64。如下：<br>
+        <p>SpringMVC除了众所周知的好处，有个问题也是要说的，渲染视图的过程是在服务端完成的，最终呈现给浏览器的是带有模型的视图页面，性能上是要打一点折扣的。前后端分离正好可以解决这个问题：浏览器端使用Ajax发起请求，服务器端根据请求返回JSON数据，由浏览器负责渲染界面。</p>
+<a id="more"></a>
+<p>也就是说，我们输入的是AJAX请求，输出的是JSON数据，市面上有这样的技术来实现这个功能吗？答案是REST。</p>
+<p>REST本质上是使用URL来访问资源种方式。其中包括两部分：请求方式与请求路径，比较常见的请求方式是GET与POST，但在REST中又提出了几种其它类型的请求方式，汇总起来有六种：GET、POST、PUT、DELETE、HEAD、OPTIONS。尤其是前四种，正好与CRUD（Create-Retrieve-Update-Delete，增删改查）四种操作相对应，例如，GET（查）、POST（增）、PUT（改）、DELETE（删），这正是REST与CRUD的异曲同工之妙！需要强调的是，REST是“面向资源”的，这里提到的资源，实际上就是我们常说的领域对象，在系统设计过程中，我们经常通过领域对象来进行数据建模。</p>
+<p>REST是一个“无状态”的架构模式，因为在任何时候都可以由客户端发出请求到服务端，最终返回自己想要的数据，当前请求不会受到上次请求的影响。也就是说，服务端将内部资源发布REST服务，客户端通过URL来访问这些资源，这不就是SOA所提倡的“面向服务”的思想吗？所以，REST也被人们看做是一种“轻量级”的SOA实现技术，因此在企业级应用与互联网应用中都得到了广泛应用。</p>
+
       
     </div>
     <footer>
       
         
-          <div class="alignleft">
-            <a href="/2014/11/20/加装SSD-重装MSDN英文版win7系统/#more" class="more-link">Read More</a>
-          </div>
+  
+  <div class="categories">
+    <a href="/categories/技术/">技术</a>
+  </div>
+
         
+  
+  <div class="tags">
+    <a href="/tags/SpingMVC/">SpingMVC</a>, <a href="/tags/前后端分离/">前后端分离</a>, <a href="/tags/REST/">REST</a>
+  </div>
+
         
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
       
       <div class="clearfix"></div>
     </footer>
@@ -112,15 +136,39 @@ var _hmt = _hmt || [];
 </article>
 
 
-
-
-  
-
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
+<nav id="pagination" >
+    
+    <a href="/2016/05/11/许久后的回归/" class="alignleft prev" >上一页</a>
+    
+    
+    <a href="/2015/04/15/关于服务的一些想法/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
 </nav>
+
+<section id="comment">
+
+<!-- Gitment JS代码 start -->
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '页面 ID', // 可选。默认为 location.href
+  owner: 'jackhai9',
+  repo: 'jackhai9.github.io',
+  oauth: {
+    client_id: '58885a09b9ce2fc5394e',
+    client_secret: 'ce532ef0a016f796262b0a63d5e54acbe3146524',
+  },
+})
+gitment.render('container')
+</script>
+<!-- Gitment JS代码 end -->
+
+</section>
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
