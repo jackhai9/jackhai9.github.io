@@ -92,14 +92,27 @@ var _hmt = _hmt || [];
         <p>这次说的是58的Gaea服务，据说是SCF的开源版本。</p>
 <p>Gaea是支持跨平台具有高并发、高性能、高可靠性，并提供异步、多协议、事件驱动的中间层服务框架。相对于其它重量级的中间件，比如淘宝的dubbo，Gaea只做一件事，因此没有过多的项目依赖。目前来看是比较符合我们单工程架构的服务要求的，性能上足够了。<br><a id="more"></a><br>Github地址：<a href="https://github.com/58code/Gaea" target="_blank" rel="external">https://github.com/58code/Gaea</a><br>对于想初步了解服务架构的同学可以多看看，里面提供的demo简单实用。客户端的编写和服务端的调用都蛮清晰的，流畅用起来是没有问题的。</p>
 <p>但是工作中发现了一些问题：</p>
-<p>1.单服务可能因为服务主机内存不足容易被清理掉。因为我们目前的单Gaea服务器上还有别的许多程序在跑，半个月左右就容易内存不足导致Gaea当掉，当然可以写脚本周期性监控内存，有问题发邮件出来并自动清理内存然后自动重启Gaea服务端，但是这样未免太弱鸡，好的方法是进行分布式部署，把Gaea服务放在多台主机上，调用时候实现类似fail-over机制，达到高可用效果。</p>
+<ol>
+<li>单服务可能因为服务主机内存不足容易被清理掉。因为我们目前的单Gaea服务器上还有别的许多程序在跑，半个月左右就容易内存不足导致Gaea当掉，当然可以写脚本周期性监控内存，有问题发邮件出来并自动清理内存然后自动重启Gaea服务端，但是这样未免太弱鸡，好的方法是进行分布式部署，把Gaea服务放在多台主机上，调用时候实现类似fail-over机制，达到高可用效果。</li>
+<li>后面有时间可以重构为使用Dubbo，实现真正的分布式服务。</li>
+</ol>
 
       
     </div>
     <footer>
       
         
+  
+  <div class="categories">
+    <a href="/categories/技术/">技术</a>
+  </div>
+
         
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>, <a href="/tags/服务/">服务</a>, <a href="/tags/Gaea/">Gaea</a>, <a href="/tags/高可用/">高可用</a>
+  </div>
+
         
   <div class="addthis addthis_toolbox addthis_default_style">
     
@@ -178,6 +191,8 @@ gitment.render('container')
   
     <li><a href="/categories/工具/">工具</a><small>2</small></li>
   
+    <li><a href="/categories/技术/">技术</a><small>1</small></li>
+  
     <li><a href="/categories/折腾/">折腾</a><small>1</small></li>
   
     <li><a href="/categories/转载/">转载</a><small>2</small></li>
@@ -205,9 +220,13 @@ gitment.render('container')
   
     <li><a href="/tags/Exception/">Exception</a><small>1</small></li>
   
+    <li><a href="/tags/Gaea/">Gaea</a><small>1</small></li>
+  
     <li><a href="/tags/Handler/">Handler</a><small>1</small></li>
   
     <li><a href="/tags/Hexo/">Hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>1</small></li>
   
     <li><a href="/tags/ListView/">ListView</a><small>1</small></li>
   
@@ -229,9 +248,13 @@ gitment.render('container')
   
     <li><a href="/tags/文章/">文章</a><small>1</small></li>
   
+    <li><a href="/tags/服务/">服务</a><small>1</small></li>
+  
     <li><a href="/tags/读书/">读书</a><small>1</small></li>
   
     <li><a href="/tags/重装系统/">重装系统</a><small>1</small></li>
+  
+    <li><a href="/tags/高可用/">高可用</a><small>1</small></li>
   
   </ul>
 </div>
