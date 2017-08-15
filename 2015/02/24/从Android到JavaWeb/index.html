@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Looper | Jackhai</title>
+  <title>从Android到JavaWeb | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="从Android到JavaWeb"/>
   <meta property="og:site_name" content="Jackhai"/>
 
   
@@ -73,41 +73,54 @@ var _hmt = _hmt || [];
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">Looper</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-11-09T13:46:15.000Z"><a href="/2014/11/09/Android异步消息机制完全解析/">Nov 9 2014</a></time>
+        <time datetime="2015-02-24T12:16:06.000Z"><a href="/2015/02/24/从Android到JavaWeb/">Feb 24 2015</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/11/09/Android异步消息机制完全解析/">Android异步消息机制完全解析</a></h1>
+    <h1 class="title">从Android到JavaWeb</h1>
   
 
     </header>
     <div class="entry">
       
-        <blockquote>
-<p>开始进入正题，我们都知道，Android UI是线程不安全的，如果在子线程中尝试进行UI操作，程序就有可能会崩溃。相信大家在日常的工作当中都会经常遇到这个问题，解决的方案应该也是早已烂熟于心，即创建一个Message对象，然后借助Handler发送出去，之后在Handler的handleMessage()方法中获得刚才发送的Message对象，然后在这里进行UI操作就不会崩溃了。</p>
-</blockquote>
-<p>这种处理方式被称为<strong>异步</strong>消息处理线程，虽然我相信大家都会用，可是你知道它背后的原理是什么样的吗？今天我们就来一起深入探究一下Handler和Message背后的秘密。<br>
+        <p>很久没有写博客了。。。。</p>
+<p>最近工作又忙了起来，从Android也开始转为Java Web开发，估计最近是没安卓项目可以做了。服务端的事好杂好多，不像移动端那么得心应手，总之学到了不少东西，很多思路还需要再整理，回头分篇整理下。</p>
+
       
     </div>
     <footer>
       
         
-          <div class="alignleft">
-            <a href="/2014/11/09/Android异步消息机制完全解析/#more" class="more-link">Read More</a>
-          </div>
+  
+  <div class="categories">
+    <a href="/categories/随记/">随记</a>
+  </div>
+
         
         
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
       
       <div class="clearfix"></div>
     </footer>
@@ -115,15 +128,39 @@ var _hmt = _hmt || [];
 </article>
 
 
-
-
-  
-
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
+<nav id="pagination" >
+    
+    <a href="/2015/04/15/关于服务的一些想法/" class="alignleft prev" >上一页</a>
+    
+    
+    <a href="/2014/11/27/Eclipse的-Unhandled-event-loop-exception问题/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
 </nav>
+
+<section id="comment">
+
+<!-- Gitment JS代码 start -->
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '页面 ID', // 可选。默认为 location.href
+  owner: 'jackhai9',
+  repo: 'jackhai9.github.io',
+  oauth: {
+    client_id: '58885a09b9ce2fc5394e',
+    client_secret: 'ce532ef0a016f796262b0a63d5e54acbe3146524',
+  },
+})
+gitment.render('container')
+</script>
+<!-- Gitment JS代码 end -->
+
+</section>
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
