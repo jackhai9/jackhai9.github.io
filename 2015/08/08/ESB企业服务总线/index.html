@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ORM | Jackhai</title>
+  <title>ESB企业服务总线 | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="ESB企业服务总线"/>
   <meta property="og:site_name" content="Jackhai"/>
 
   
@@ -73,38 +73,62 @@ var _hmt = _hmt || [];
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">ORM</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-06-15T12:28:55.000Z"><a href="/2015/06/15/MyBatis小结/">Jun 15 2015</a></time>
+        <time datetime="2015-08-08T03:11:38.000Z"><a href="/2015/08/08/ESB企业服务总线/">Aug 8 2015</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/06/15/MyBatis小结/">MyBatis小结</a></h1>
+    <h1 class="title">ESB企业服务总线</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>数据持久化层，公司的框架是封装的JDBC，几乎用法是一样的，现在应该流行用ORM框架吧，今天看了下MyBatis，相比较与Hibernate那样无法写SQL语句，更喜欢MyBatis这样可调整的方式，而且还能通过优化SQL来优化数据库访问，还能练习SQL语法，一举多得啊。<br>
+        <p>最近用到了ActiveMQ，感觉这种消息队列非常好用，也接触到了ESB这种高级点的技术，有时间很值得多研究。</p>
+<p>公司内部用的是封装过的esb，是基于ActiveMQ的，router就是封装的Camel，估计当初进行封装的人拿这个来练手的。基于这个esb，我对寄送信息推送这一块进行了重构，由原来的使用http方式直接推送改为了使用消息队列，好处就是消息队列里的消息可以异步推送，比之前那种依赖于http连接的方式效率和数据完整性上要好多了。</p>
+<p>后期也可以把邮件发送的功能也集成到esb这边来，可以摆脱对C#的Gaea服务的依赖。</p>
+<p>Apache还有个ServiceMix项目，对ActiveMQ和Camel进行了集成，也可以关注下。</p>
+<p><a href="http://activemq.apache.org/" target="_blank" rel="external">ActiveMQ官网</a>。</p>
+
       
     </div>
     <footer>
       
         
-          <div class="alignleft">
-            <a href="/2015/06/15/MyBatis小结/#more" class="more-link">Read More</a>
-          </div>
+  
+  <div class="categories">
+    <a href="/categories/技术/">技术</a>
+  </div>
+
         
+  
+  <div class="tags">
+    <a href="/tags/ESB/">ESB</a>, <a href="/tags/ActiveMQ/">ActiveMQ</a>, <a href="/tags/ServiceMix/">ServiceMix</a>
+  </div>
+
         
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
       
       <div class="clearfix"></div>
     </footer>
@@ -112,15 +136,39 @@ var _hmt = _hmt || [];
 </article>
 
 
-
-
-  
-
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
+<nav id="pagination" >
+    
+    <a href="/2016/04/28/关于CI持续集成/" class="alignleft prev" >上一页</a>
+    
+    
+    <a href="/2015/06/15/MyBatis小结/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
 </nav>
+
+<section id="comment">
+
+<!-- Gitment JS代码 start -->
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '页面 ID', // 可选。默认为 location.href
+  owner: 'jackhai9',
+  repo: 'jackhai9.github.io',
+  oauth: {
+    client_id: '58885a09b9ce2fc5394e',
+    client_secret: 'ce532ef0a016f796262b0a63d5e54acbe3146524',
+  },
+})
+gitment.render('container')
+</script>
+<!-- Gitment JS代码 end -->
+
+</section>
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
