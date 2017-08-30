@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>关于CI持续集成 | Jackhai</title>
+  <title>JVM性能调优工具 | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="关于CI持续集成"/>
+  <meta property="og:title" content="JVM性能调优工具"/>
   <meta property="og:site_name" content="Jackhai"/>
 
   
@@ -79,20 +79,36 @@ var _hmt = _hmt || [];
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-04-28T08:48:08.000Z"><a href="/2016/04/28/关于CI持续集成/">Apr 28 2016</a></time>
+        <time datetime="2015-11-27T14:00:01.000Z"><a href="/2015/11/27/JVM性能调优工具/">Nov 27 2015</a></time>
       
       
   
-    <h1 class="title">关于CI持续集成</h1>
+    <h1 class="title">JVM性能调优工具</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>之前一直在手工打包，看到别的组在用Jenkins进行持续集成，顿时感觉好用太多，学无止境啊。。</p>
-<p>配合一直在用的GitLab，配置起来还是蛮简单的，但是对效率的提升不是一点半点，不能更赞啊。如果你还在本地人工打包发布项目，建议你赶紧使用CI。也可以使用Hudson，基本是一样的。</p>
-<a id="more"></a>
-<p>具体部署可参考<a href="http://www.showerlee.com/archives/1880" target="_blank" rel="external">这里</a>。</p>
+        <p>JDK内置了很多有用的工具，可以对程序进行问题排查、性能调优。如jps，jstat，jinfo，jmap等，可以通过查手册学习相关使用，今天主要介绍下面这些：</p>
+<h2 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h2><p>jstack用于打印出给定的java进程ID或core file或远程调试服务的Java堆栈信息，如果是在64位机器上，需要指定选项”-J-d64”，Windows的jstack使用方式只支持以下的这种方式：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack [-l] pid</span><br></pre></td></tr></table></figure></p>
+<p>如果java程序崩溃生成core文件，jstack工具可以用来获得core文件的java stack和native stack的信息，从而可以轻松地知道java程序是如何崩溃和在程序何处发生问题。另外，jstack工具还可以附属到正在运行的java程序中，看到当时运行的java程序的java stack和native stack的信息, 如果现在运行的java程序呈现hung的状态，jstack是非常有用的。</p>
+<h2 id="jconsole"><a href="#jconsole" class="headerlink" title="jconsole"></a>jconsole</h2><p>一个java GUI监视工具，可以以图表化的形式显示各种数据。并可通过远程连接监视远程的服务器VM。用java写的GUI程序，用来监控VM，并可监控远程的VM，非常易用，而且功能非常强。命令行里打 jconsole，选则进程就可以了。</p>
+<p>需要注意的就是在运行jconsole之前，必须要先设置环境变量DISPLAY，否则会报错误，Linux下设置环境变量如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export DISPLAY=:<span class="number">0.0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="jvisualvm"><a href="#jvisualvm" class="headerlink" title="jvisualvm"></a>jvisualvm</h2><p>VisualVM 是一款免费的\集成了多个JDK 命令行工具的可视化工具，它能为您提供强大的分析能力，对 Java 应用程序做性能分析和调优。这些功能包括生成和分析海量数据、跟踪内存泄漏、监控垃圾回收器、执行内存和 CPU 分析，同时它还支持在 MBeans 上进行浏览和操作。</p>
+<p>在内存分析上，Java VisualVM的最大好处是可通过安装Visual GC插件来分析 GC（Gabage Collection）趋势、内存消耗详细状况。</p>
+<p>1、Visual GC(监控垃圾回收器)</p>
+<p>Java VisualVM默认没有安装Visual GC插件，需要手动安装，JDK的安装目录的bin目露下双击jvisualvm.exe，即可打开Java VisualVM，点击菜单栏 工具-&gt;插件 安装Visual GC</p>
+<p>安装完成后重启Java VisualVM，Visual GC界面自动打开，即可看到JVM中堆内存的分代情况</p>
+<p>堆(Heap) ：JVM管理的内存叫堆</p>
+<p>分代：根据对象的生命周期长短，把堆分为3个代：Young，Old 和 Permanent，根据不同代的特点采用不同的收集算法，扬长避短也。</p>
+<pre><code>1. Young（年轻代）年轻代分三个区。一个 Eden 区，两个Survivor 区。大部分对象在 Eden 区中生成。当 Eden 区满时，还存活的对象将被复制到 Survivor 区（两个中的一个），当这个 Survivor 区满时，此区的存活对象将被复制到另外一个 Survivor 区，当这个 Survivor 去也满了的时候，从第一个 Survivor 区复制过来的并且此时还存活的对象，将被复制到 “年老区(Old)” 。需要注意，Survivor 的两个区是对称的，没先后关系，所以同一个区中可能同时存在从 Eden 复制过来对象，和从前一个 Survivor 复制过来的对象，而复制到年老区的只有从第一个 Survivor 复制过来的对象。而且，Survivor 区总有一个是空的。
+2. Old（年老代）年老代存放从年轻代存活的对象。一般来说年老代存放的都是生命期较长的对象。如果 Old 区也满了，将会触发 Full GC ，回收整个堆内存。
+3. Perm（持久代，Java8中已经移除了，用Metaspace来代替，使用本地内存来存储类元数据信息）用于存放的主要是类的 Class 对象。持久代对垃圾回收没有显著影响，但是有些应用可能动态生成或者调用一些 class，例如 Hibernate 等，在这种时候需要设置一个比较大的持久代空间来存放这些运行过程中新增的类。持久代大小通过 -XX:MaxPermSize= 进行设置。如果一个类被频繁的加载，也可能会导致 Perm 区满，Perm 区的垃圾回收也是由 Full GC 触发的。
+</code></pre><p>GC的基本概念<br>gc 分为 full gc 和 minor gc，当每一块区满的时候都会引发 gc。<br>    •    Scavenge GC<br>一般情况下，当新对象生成，并且在 Eden 申请空间失败时，就触发了 Scavenge GC，堆 Eden 区域进行 GC，清除非存活对象，并且把尚且存活的对象移动到 Survivor 区。然后整理 Survivor 的两个区。<br>    •    Full GC<br>对整个堆进行整理，包括 Young、Tenured 和 Perm。Full GC 比 Scavenge GC 要慢，因此应该尽可能减少 Full GC。有如下原因可能导致 Full GC：<br>上一次 GC 之后 Heap 的各域分配策略动态变化<br>    •    System.gc() 被显示调用<br>    •    Perm 域被写满<br>    •    Old 被写满<br>内存溢出 out of memory，是指程序在申请内存时，没有足够的内存空间供其使用，出现out of memory；比如申请了一个integer,但给它存了long才能存下的数，那就是内存溢出。<br>内存泄露 memory leak，是指程序在申请内存后，无法释放已申请的内存空间，一次内存泄露危害可以忽略，但内存泄露堆积后果很严重，无论多少内存,迟早会被占光。其实说白了就是该内存空间使用完毕之后未回收。</p>
+<p>2、VisualVM 的其他功能 监视界面（cpu，类，堆，线程）</p>
+<p>堆dump和线程dump操作：<br>Dump文件是进程的内存镜像，可以把程序的执行状态通过调试器保存到dump文件中。</p>
+<p>dump文件可以使用MAT(Memory Analyzer Tool)内存分析工具以图形界面的方式展现结果。</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="https://www.ibm.com/developerworks/cn/java/j-lo-visualvm/" target="_blank" rel="external">使用 VisualVM 进行性能分析及调优</a></p>
 
       
     </div>
@@ -107,7 +123,7 @@ var _hmt = _hmt || [];
         
   
   <div class="tags">
-    <a href="/tags/Jenkins/">Jenkins</a>
+    <a href="/tags/Java/">Java</a>, <a href="/tags/性能调优/">性能调优</a>
   </div>
 
         
@@ -137,10 +153,10 @@ var _hmt = _hmt || [];
 
 <nav id="pagination" >
     
-    <a href="/2016/05/20/Nginx小结/" class="alignleft prev" >上一页</a>
+    <a href="/2016/04/28/关于CI持续集成/" class="alignleft prev" >上一页</a>
     
     
-    <a href="/2015/11/27/JVM性能调优工具/" class="alignright next" >下一页</a>
+    <a href="/2015/11/20/微信公众号和企业号开发/" class="alignright next" >下一页</a>
     
     <div class="clearfix"></div>
 </nav>
