@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Dubbo分布式服务 | Jackhai</title>
+  <title>ClassLoader | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Dubbo分布式服务"/>
+  
   <meta property="og:site_name" content="Jackhai"/>
 
   
@@ -73,70 +73,53 @@ var _hmt = _hmt || [];
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+<h2 class="archive-title tag">ClassLoader</h2>
+
+
+  
+    <article class="post">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-11-17T13:10:04.000Z"><a href="/2016/11/17/Dubbo分布式服务/">Nov 17 2016</a></time>
+        <time datetime="2014-11-07T10:35:56.000Z"><a href="/2014/11/07/Java-ClassLoader-总结/">Nov 7 2014</a></time>
       
       
   
-    <h1 class="title">Dubbo分布式服务</h1>
+    <h1 class="title"><a href="/2014/11/07/Java-ClassLoader-总结/">Java ClassLoader 总结</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>对Gaea服务进行重构，使用Dubbo实现分布式服务架构，记录下过程。</p>
-<p>用到了4台主机，分别是：2台部署服务提供者，做主从；1台Zookeeper服务器，同时部署dubbo-admin管控台；1台部署Redis，如果有必要，Redis也可增加主机，扩展为分布式。</p>
-<a id="more"></a>
-<p>具体步骤：</p>
-<ol>
-<li>Gaea服务进行向上提取，引入Dubbo，部署两份分别到2台服务器，作为服务提供者。注意注册方式使用Zookeeper，服务暴露地址等等配置事项。</li>
-<li>Zookeeper的搭建，注意地址，Dubbo管控台搭建，方便起见与Zookeeper搭在了一起。</li>
-<li>使用Redis作缓存，这里是单机，可以做伪集群或者是集群。注意配置项。</li>
-<li>注意测试：高并发和高可用性。集群某台宕机测试。</li>
-<li>服务消费者分批改为调用Dubbo服务提供者。</li>
-</ol>
-<p>重构后服务调运不受影响，具有了高并发和高可用性。通过这次重构学到了不少。中间遇到了不少问题，基本都是搭建过程和配置的原因，具体参考文档如下：</p>
-<p><a href="http://blog.csdn.net/xvshu/article/details/47667235" target="_blank" rel="external">参考文档</a>。<br><a href="http://www.cnblogs.com/ASPNET2008/p/5622005.html" target="_blank" rel="external">参考文档</a>。<br><a href="http://blog.csdn.net/congcong68/article/details/41113239" target="_blank" rel="external">参考文档</a>。<br><a href="http://dubbo.io/" target="_blank" rel="external">Dubbo文档</a>。</p>
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>程序在启动时，并不会一次性加载所要用的所有class文件，而是根据程序的需要，通过Java的类加载机制（ClassLoader）来动态加载某个 class 文件到内存中，从而只有 class 文件被载入到了内存之后，才能被其它 class 所引用。所以 ClassLoader 就是用来动态加载 class 文件到内存当中的。具体作用就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 负责将 Class 加载到 JVM 中</span><br><span class="line">2. 审查每个类由谁加载（父优先的等级加载机制） </span><br><span class="line">3. 将 Class 字节码重新解析成 JVM 统一要求的对象格式</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>类加载的动态性体现：<br>一个应用程序总是由n多个类组成，Java程序启动时，并不是一次把所有的类全部加载后再运行，它总是先把保证程序运行的基础类一次性加载到jvm中，其它类等到jvm用到的时候再加载，这样的好处是节省了内存的开销，因为java最早就是为嵌入式系统而设计的，内存宝贵，这是一种可以理解的机制，而用到时再加载这也是java动态性的一种体现。</p>
+</blockquote>
+<p>JVM加载Class文件的两种方法(都是使用ClassLoader来加载):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* **隐式加载**， 程序在运行过程中当碰到通过new 等方式生成对象时，隐式调用类装载器加载对应的类到jvm中。</span><br><span class="line">* **显式加载**， 通过Class.forName()、this.getClass.getClassLoader().loadClass()等方法显式加载需要的类，或者我们自己实现的 ClassLoader 的 findClass() 方法。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Class.forName是一个静态方法，同样可以用来加载类。该方法有两种形式：Class.forName(String name,boolean initialize, ClassLoader loader)和Class.forName(String className)。第一种形式的参数 name 表示的是类的全名；initialize表示是否初始化类；loader表示加载时使用的类加载器。第二种形式则相当于设置了参数 initialize 的值为 true，loader的值为当前类的类加载器。Class.forName的一个很常见的用法是在加载数据库驱动的时候。如Class.forName(“org.apache.derby.jdbc.EmbeddedDriver”)用来加载 Apache Derby 数据库的驱动。</p>
+</blockquote>
+<h2 id="具体原理"><a href="#具体原理" class="headerlink" title="具体原理"></a>具体原理</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassLoader</span></span></span><br></pre></td></tr></table></figure>
+<p>ClassLoader类是一个抽象类</p>
+<h3 id="Java默认提供的三个ClassLoader"><a href="#Java默认提供的三个ClassLoader" class="headerlink" title="Java默认提供的三个ClassLoader"></a>Java默认提供的三个ClassLoader</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">* BootStrap ClassLoader：称为启动类加载器，是Java类加载层次中最顶层的类加载器，负责加载JDK中的核心类库，如：rt.jar、resources.jar、charsets.jar等</span><br><span class="line">* Extension ClassLoader：称为扩展类加载器，负责加载Java的扩展类库，Java 虚拟机的实现会提供一个扩展库目录。该类加载器在此目录里面查找并加载 Java 类。默认加载JAVA_HOME/jre/lib/ext/目下的所有jar。</span><br><span class="line">* Application ClassLoader：称为系统类加载器，负责加载应用程序classpath目录下的所有jar和class文件。一般来说，Java 应用的类都是由它来完成加载的。可以通过 ClassLoader.getSystemClassLoader()来获取它。</span><br></pre></td></tr></table></figure>
+<h3 id="ClassLoader加载类的原理"><a href="#ClassLoader加载类的原理" class="headerlink" title="ClassLoader加载类的原理"></a>ClassLoader加载类的原理</h3><ul>
+<li><p>ClassLoader使用的是双亲委托模型来搜索类的，每个ClassLoader实例都有一个父类加载器的引用（不是继承的关系，是一个包含的关系），虚拟机内置的类加载器（Bootstrap ClassLoader）本身没有父类加载器，但可以用作其它ClassLoader实例的的父类加载器。当一个ClassLoader实例需要加载某个类时，它会试图亲自搜索某个类之前，先把这个任务委托给它的父类加载器，这个过程是由上至下依次检查的，首先由最顶层的类加载器Bootstrap ClassLoader试图加载，如果没加载到，则把任务转交给Extension ClassLoader试图加载，如果也没加载到，则转交给App ClassLoader进行加载，如果它也没有加载得到的话，则返回给委托的发起者，由它到指定的文件系统或网络等URL中加载该类。如果它们都没有加载到这个类时，则抛出ClassNotFoundException异常。否则将这个找到的类生成一个类的定义，并将它加载到内存当中，最后返回这个类在内存中的Class实例对象。</p>
+</li>
+<li><p>撒地方</p>
+</li>
+</ul>
 
       
     </div>
     <footer>
       
         
-  
-  <div class="categories">
-    <a href="/categories/技术/">技术</a>
-  </div>
-
         
-  
-  <div class="tags">
-    <a href="/tags/Dubbo/">Dubbo</a>, <a href="/tags/分布式服务架构/">分布式服务架构</a>
-  </div>
-
-        
-  <div class="addthis addthis_toolbox addthis_default_style">
-    
-      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-    
-    
-      <a class="addthis_button_tweet"></a>
-    
-    
-      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    
-    
-      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
-    
-    <a class="addthis_counter addthis_pill_style"></a>
-  </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
-
       
       <div class="clearfix"></div>
     </footer>
@@ -144,39 +127,15 @@ var _hmt = _hmt || [];
 </article>
 
 
-<nav id="pagination" >
-    
-    <a href="/2017/07/18/旅游小结/" class="alignleft prev" >上一页</a>
-    
-    
-    <a href="/2016/05/20/Nginx小结/" class="alignright next" >下一页</a>
-    
-    <div class="clearfix"></div>
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
 </nav>
-
-<section id="comment">
-
-<!-- Gitment JS代码 start -->
-<div id="container"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-var gitment = new Gitment({
-  id: '页面 ID', // 可选。默认为 location.href
-  owner: 'jackhai9',
-  repo: 'jackhai9.github.io',
-  oauth: {
-    client_id: '58885a09b9ce2fc5394e',
-    client_secret: 'ce532ef0a016f796262b0a63d5e54acbe3146524',
-  },
-})
-gitment.render('container')
-</script>
-<!-- Gitment JS代码 end -->
-
-</section>
-
-
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
