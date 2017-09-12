@@ -90,9 +90,9 @@ var _hmt = _hmt || [];
     <div class="entry">
       
         <h2 id="一、JVM-内存模型"><a href="#一、JVM-内存模型" class="headerlink" title="一、JVM 内存模型"></a>一、JVM 内存模型</h2><p><strong>根据 JVM 规范</strong>，JVM 内存共分为虚拟机栈、堆、方法区、程序计数器、本地方法栈五个部分。</p>
-<p><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm-1.png" alt=""></p>
-<p>JVM内存模型图：</p>
-<p><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm-3.png" alt=""><br><a id="more"></a><br>1、虚拟机栈：每个线程有一个私有的栈，随着线程的创建而创建。栈里面存着的是一种叫“栈帧”的东西，每个方法会创建一个栈帧，栈帧中存放了局部变量表（基本数据类型和对象引用）、操作数栈、方法出口等信息。栈的大小可以固定也可以动态扩展。当栈调用深度大于JVM所允许的范围，会抛出 StackOverflowError 的错误，不过这个深度范围不是一个恒定的值，我们通过下面这段程序可以测试一下这个结果：</p>
+<p><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm-1.png" alt=""><br><a id="more"></a><br>JVM内存模型图：</p>
+<p><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm-3.png" alt=""></p>
+<p>1、虚拟机栈：每个线程有一个私有的栈，随着线程的创建而创建。栈里面存着的是一种叫“栈帧”的东西，每个方法会创建一个栈帧，栈帧中存放了局部变量表（基本数据类型和对象引用）、操作数栈、方法出口等信息。栈的大小可以固定也可以动态扩展。当栈调用深度大于JVM所允许的范围，会抛出 StackOverflowError 的错误，不过这个深度范围不是一个恒定的值，我们通过下面这段程序可以测试一下这个结果：</p>
 <p>栈溢出测试源码： java.lang.StackOverflowError</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StackErrorMock</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> index = <span class="number">1</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">()</span></span>&#123;</span><br><span class="line">        index++;</span><br><span class="line">        call();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        StackErrorMock mock = <span class="keyword">new</span> StackErrorMock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            mock.call();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Throwable e)&#123;</span><br><span class="line">            System.out.println(<span class="string">"Stack deep : "</span>+index);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>虚拟机栈除了上述 Error 外，还有另一种 Error ，那就是当申请不到空间时，会抛出 OutOfMemoryError 。这里有一个小细节需要注意，catch 捕获的是 Throwable 。Error 是可以 catch 的，而且也可以向常规 Exception 一样被处理，而且就算不捕捉的话也只是导致当前线程挂掉，其他线程还是可以正常运行，如果有需要的话捕捉 Error 之后也可以做些其他处理。但是 Error 是一种系统内部的错误，这种错误不像 Exception 一样是可能是程序和业务上的错误是可以恢复的。</p>
@@ -114,7 +114,8 @@ var _hmt = _hmt || [];
 2、类及方法的信息等比较难确定其大小，因此对于永久代的大小指定比较困难，太小容易出现永久代溢出，太大则容易导致老年代溢出。
 3、永久代会为 GC 带来不必要的复杂度，并且回收效率偏低。
 4、Oracle 可能会将 HotSpot 与 JRockit 合二为一。
-</code></pre>
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>  1.<a href="http://www.cnblogs.com/paddix/p/5309550.html" target="_blank" rel="external">Java8内存模型</a><br>  2.<a href="http://www.cnblogs.com/lewis0077/p/5143268.html" target="_blank" rel="external">浅析java内存模型–JMM(Java Memory Model)</a></p>
+
       
     </div>
     <footer>
