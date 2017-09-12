@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ContentProvider | Jackhai</title>
+  <title>内存模型 | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -74,7 +74,7 @@ var _hmt = _hmt || [];
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">ContentProvider</h2>
+<h2 class="archive-title tag">内存模型</h2>
 
 
   
@@ -84,24 +84,27 @@ var _hmt = _hmt || [];
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-11-17T08:39:27.000Z"><a href="/2014/11/17/Android之ContentProvider/">Nov 17 2014</a></time>
+        <time datetime="2017-08-02T08:21:17.000Z"><a href="/2017/08/02/Java8内存模型—永久代-PermGen-和元空间-Metaspace/">Aug 2 2017</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/11/17/Android之ContentProvider/">Android之ContentProvider</a></h1>
+    <h1 class="title"><a href="/2017/08/02/Java8内存模型—永久代-PermGen-和元空间-Metaspace/">Java8内存模型—永久代(PermGen)和元空间(Metaspace)</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="一、ContentProvider"><a href="#一、ContentProvider" class="headerlink" title="一、ContentProvider"></a>一、ContentProvider</h2><p>Android官方指出的数据存储方式总共有五种，分别是：Shared Preferences、网络存储、文件存储、外储存储、SQLite。当应用继承ContentProvider类，并重写该类用于提供数据和存储数据的方法，就可以向其他应用共享其数据。虽然使用其他方法也可以对外共享数据，但数据访问方式会因数据存储的方式而不同，如：采用文件方式对外共享数据，需要进行文件操作读写数据；采用sharedpreferences共享数据，需要使用sharedpreferences API读写数据。而使用ContentProvider共享数据的好处是统一了数据访问方式。<br>
+        <h2 id="一、JVM-内存模型"><a href="#一、JVM-内存模型" class="headerlink" title="一、JVM 内存模型"></a>一、JVM 内存模型</h2><p><strong>根据 JVM 规范</strong>，JVM 内存共分为虚拟机栈、堆、方法区、程序计数器、本地方法栈五个部分。</p>
+<p><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm-1.png" alt=""></p>
+<p>JVM内存模型图：</p>
+<p><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm-3.png" alt=""><br>
       
     </div>
     <footer>
       
         
           <div class="alignleft">
-            <a href="/2014/11/17/Android之ContentProvider/#more" class="more-link">Read More</a>
+            <a href="/2017/08/02/Java8内存模型—永久代-PermGen-和元空间-Metaspace/#more" class="more-link">Read More</a>
           </div>
         
         
