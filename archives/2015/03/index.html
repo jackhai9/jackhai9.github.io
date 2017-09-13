@@ -114,6 +114,76 @@ var _hmt = _hmt || [];
 
 
   
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-03-01T07:12:52.000Z"><a href="/2015/03/01/常用JVM配置参数/">Mar 1 2015</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/03/01/常用JVM配置参数/">常用JVM配置参数</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="一、Trace跟踪参数："><a href="#一、Trace跟踪参数：" class="headerlink" title="一、Trace跟踪参数："></a>一、Trace跟踪参数：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-verbose:gc</span><br><span class="line">-XX:+printGC</span><br></pre></td></tr></table></figure>
+<p>解释：如上，打印GC的简要信息。比如：<br>[GC 4790K-&gt;374K(15872K), 0.0001606 secs]<br>[GC 4790K-&gt;374K(15872K), 0.0001474 secs]<br>[GC 4790K-&gt;374K(15872K), 0.0001563 secs]<br>[GC 4790K-&gt;374K(15872K), 0.0001682 secs]<br>上方日志的意思是说，GC之前，用了4M左右的内存，GC之后，用了374K内存，一共回收了将近4M。内存大小一共是16M左右。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintGCDetails</span><br></pre></td></tr></table></figure>
+<p>解释：如上，打印GC详细信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintGCTimeStamps</span><br></pre></td></tr></table></figure>
+<p>解释：如上，打印CG发生的时间戳。</p>
+<p>理解GC日志的含义：<br>例如下面这段日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[GC[DefNew: 4416K-&gt;0K(4928K), 0.0001897 secs] 4790K-&gt;374K(15872K), 0.0002232 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]</span><br></pre></td></tr></table></figure></p>
+<p>上面日志的意思是说：<br>这是一个新生代的GC。方括号内部的“4416K-&gt;0K(4928K)”含义是：“GC前该内存区域已使用容量-&gt;GC后该内存区域已使用容量（该内存区域总容量）”。<br>而在方括号之外的“4790K-&gt;374K(15872K)”表示“GC前Java堆已使用容量-&gt;GC后Java堆已使用容量（Java堆总容量）”。<br>再往后看，“0.0001897 secs”表示该内存区域GC所占用的时间，单位是秒。</p>
+<p>再比如下面这段GC日志：<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm1.png" alt=""><br>上图中，我们先看一下用红框标注的“[0x27e80000, 0x28d80000, 0x28d80000)”的含义，它表示新生代在内存当中的位置：第一个参数是申请到的起始位置，第二个参数是申请到的终点位置，第三个参数表示最多能申请到的位置。上图中的例子表示新生代申请到了15M的控件，而这个15M是等于：（eden space的12288K）+（from space的1536K）+（to space的1536K）。<br>疑问：分配到的新生代有15M，但是可用的只有13824K，为什么会有这个差异呢？</p>
+<p>指定GC log的位置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xloggc:log/gc.log</span><br></pre></td></tr></table></figure></p>
+<p>解释：如上，指定GC log的位置，以文件输出，当前项目目录下的log目录下。帮助开发人员分析问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintHeapAtGC</span><br></pre></td></tr></table></figure>
+<p>解释：如上，每一次GC前和GC后，都打印堆信息。<br>例如：<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm2.png" alt=""><br>上图中，红框部分正好是一次GC，红框部分的前面是GC之前的日志，红框部分的后面是GC之后的日志。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+TraceClassLoading</span><br></pre></td></tr></table></figure>
+<p>解释：如上，监控类的加载。<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Loaded java.lang.Object from shared objects file]</span><br><span class="line">[Loaded java.io.Serializable from shared objects file]</span><br><span class="line">[Loaded java.lang.Comparable from shared objects file]</span><br><span class="line">[Loaded java.lang.CharSequence from shared objects file]</span><br><span class="line">[Loaded java.lang.String from shared objects file]</span><br><span class="line">[Loaded java.lang.reflect.GenericDeclaration from shared objects file]</span><br><span class="line">[Loaded java.lang.reflect.Type from shared objects file]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintClassHistogram</span><br></pre></td></tr></table></figure>
+<p>解释：如上，按下Ctrl+Break后，打印类的信息。<br>例如：<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm3.png" alt=""></p>
+<h2 id="二、堆的分配参数："><a href="#二、堆的分配参数：" class="headerlink" title="二、堆的分配参数："></a>二、堆的分配参数：</h2><p>1、<strong>-Xmx –Xms：指定最大堆和最小堆</strong><br>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx20m -Xms5m</span><br></pre></td></tr></table></figure></p>
+<p>2、-Xmn、-XX:NewRatio、-XX:SurvivorRatio<br>    -Xmn 设置新生代大小<br>    -XX:NewRatio  新生代（eden+2*s）和老年代（不包含永久区）的比值<br>    　　　　      例如：4，表示新生代:老年代=1:4，即新生代占整个堆的1/5<br>    -XX:SurvivorRatio（幸存代）设置两个Survivor区和eden的比值<br>    　　　　          例如：8，表示两个Survivor:eden=2:8，即一个Survivor占新生代的1/10<br>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx20m -Xms20m -Xmn7m -XX:SurvivorRatio=2 -XX:+PrintGCDetails</span><br></pre></td></tr></table></figure></p>
+<p>3、-XX:+HeapDumpOnOutOfMemoryError、-XX:+HeapDumpPath<br>    -XX:+HeapDumpOnOutOfMemoryError  OOM时导出堆到文件，根据这个文件，我们可以看到系统dump时发生了什么<br>    -XX:+HeapDumpPath   导出OOM的路径<br>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx20m -Xms5m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=d:/a.dump</span><br></pre></td></tr></table></figure></p>
+<p>如上意思是说，现在给堆内存最多分配20M的空间。如果发生了OOM异常，那就把dump信息导出到d:/a.dump文件中。</p>
+<p>可以使用Java自带的Java VisualVM工具对dump文件进行分析。</p>
+<p>4、-XX:OnOutOfMemoryError<br>在OOM时，执行一个脚本。（可以在OOM时，发送邮件，甚至是重启程序。）<br>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:OnOutOfMemoryError=D:/tools/jdk1.7_40/bin/printstack.bat %p //p代表的是当前进程的pid</span><br></pre></td></tr></table></figure></p>
+<p>如上参数的意思是说，执行printstack.bat脚本，而这个脚本做的事情是：D:/tools/jdk1.7_40/bin/jstack -F %1 &gt; D:/a.txt，即当程序OOM时，在D:/a.txt中将会生成线程的dump。</p>
+<p>5、堆的分配参数总结：</p>
+<ul>
+<li>根据实际事情调整新生代和幸存代的大小</li>
+<li>官方推荐新生代占堆的1/3</li>
+<li>幸存代占新生代的1/10</li>
+<li>在OOM时，记得Dump出堆，确保可以排查现场问题</li>
+</ul>
+<p>6、永久区分配参数：<br>-XX:PermSize  -XX:MaxPermSize<br>设置永久区的初始空间和最大空间。也就是说，jvm启动时，永久区一开始就占用了PermSize大小的空间，如果空间还不够，可以继续扩展，但是不能超过MaxPermSize，否则会OOM。</p>
+<p>举例：<br>我们知道，使用CGLIB等库的时候，可能会产生大量的类，这些类，有可能撑爆永久区导致OOM。于是，我们运行下面这段代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(int i=0;i&lt;100000;i++)&#123;</span><br><span class="line">　　CglibBean bean = new CglibBean(&quot;geym.jvm.ch3.perm.bean&quot;+i,new HashMap());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面这段代码会在永久区不断地产生新的类，导致OOM。<br>总结：<strong>如果堆空间没有用完也抛出了OOM，有可能是永久区导致的。</strong>堆空间实际占用非常少，但是永久区溢出一样抛出OOM。</p>
+<h2 id="三、栈的分配参数："><a href="#三、栈的分配参数：" class="headerlink" title="三、栈的分配参数："></a>三、栈的分配参数：</h2><p>-Xss<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">设置栈空间的大小。通常只有几百K</span><br><span class="line">　　决定了函数调用的深度</span><br><span class="line">　　每个线程都有独立的栈空间</span><br><span class="line">　　局部变量、参数 分配在栈上</span><br></pre></td></tr></table></figure></p>
+<p>注：栈空间是每个线程私有的区域。栈里面的主要内容是栈帧，而栈帧存放的是局部变量表，局部变量表的内容是：局部变量、参数。</p>
+<p>如果-Xss设置的过小，函数调用的次数过多，如递归调用太深。可能会抛出StackOverflowError。<br>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xss128K</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
 
   <nav id="pagination">
   
@@ -138,7 +208,7 @@ var _hmt = _hmt || [];
   
     <li><a href="/categories/工具/">工具</a><small>2</small></li>
   
-    <li><a href="/categories/技术/">技术</a><small>16</small></li>
+    <li><a href="/categories/技术/">技术</a><small>17</small></li>
   
     <li><a href="/categories/折腾/">折腾</a><small>1</small></li>
   
@@ -177,7 +247,9 @@ var _hmt = _hmt || [];
   
     <li><a href="/tags/Hexo/">Hexo</a><small>1</small></li>
   
-    <li><a href="/tags/Java/">Java</a><small>5</small></li>
+    <li><a href="/tags/JVM配置参数/">JVM配置参数</a><small>1</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>6</small></li>
   
     <li><a href="/tags/Jenkins/">Jenkins</a><small>1</small></li>
   

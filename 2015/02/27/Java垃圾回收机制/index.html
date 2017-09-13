@@ -97,10 +97,11 @@ var _hmt = _hmt || [];
 <h3 id="1-1哪些内存需要回收？"><a href="#1-1哪些内存需要回收？" class="headerlink" title="1.1哪些内存需要回收？"></a>1.1哪些内存需要回收？</h3><p>　　对于java堆和方法区则不一样，java堆是存放实例对象的地方，我们只有在程序运行期间才能知道会创建哪些对象，这部分内存的分配和回收是动态的，因此，垃圾收集器所关注的就是这一部分。<br>　　对于方法区（或者说HotSpot虚拟机中的永久代），垃圾回收主要是回收这两部分内容：<strong>废弃常量和无用的类</strong>。对于废弃常量，主要是判断当前系统中有没有对象引用这个常量；对于无用类则比较严格，需要满足下面三个条件：<br>（1）该类的所有实例都已经被回收，即堆中不存在该类任何实例对象；<br>（2）加载该类的ClassLoader已经被回收；<br>（3）该类对应的java.lang.Class对象没有在任何地方被引用，无法再任何地方通过反射访问该类的方法；<br>满足了上面三个条件也仅仅是“可以”进行回收了，还要根据HotSpot的一些配置参数综合考虑。</p>
 <h3 id="1-2什么时候回收？"><a href="#1-2什么时候回收？" class="headerlink" title="1.2什么时候回收？"></a>1.2什么时候回收？</h3><p>垃圾收集器在对堆进行回收前，第一件事就是要确定这些对象之中哪些还“存活”着，哪些已经“死去”，对于这些已经“死去”的对象我们需要进行回收。判断对象是否存活的算法：</p>
 <p>（1）引用计数算法<br>算法过程如下：【给对象添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的】。<br>引用计数算法实现简单，判定效率也很高，大部分情况下是一个不错的算法。但有一个比较重要的缺点：<strong>很难解决对象之间相互循环引用的问题</strong>。比如：j假设变量objA、objB为某个类的对象实例，objA中持有一个指向objB的成员，此时objB的引用计数为1；在objB中持有一个指向objA的成员，此时objA的引用计数值也为1；此时，即使把objA、objB都置为null，此时两个对象都不能被回收，因为这两个对象虽然为null了，但是它们的引用计数值都还为1。</p>
-<p>（2）可达性分析算法<br><strong>目前主流的虚拟机，如java默认虚拟机HotSpot就是用的这种方式</strong>。算法基本思路为：【通过一系列的称为“<strong>GC Roots</strong>”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为<strong>引用链</strong>，当一个对象到GC Roots没有任何引用链相连时（或者说从GC Roots到这个对象不可达），则证明此对象是不可用的】。<br>可作为GC Roots的对象包括：<br>1）虚拟机栈（栈帧中的本地变量表）中引用的对象；<br>2）方法区中类静态static属性引用的对象；<br>3）方法区中常量final引用的对象；<br>4）本地方法栈中JNI（即一般说的Native方法）引用的对象；<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/gcroot.jpg" alt=""><br>    需要注意的是，即使在可达性分析算法中不可达的对象，也并非是“非死不可”的，要真正宣告一个对象死亡，至少要经历<strong>两次标记</strong>过程：如果对象在进行可达性分析后发现没有与GC Roots相连接的引用链，那它将会被第一次标记并且进行一次筛选，筛选的条件是此对象是否有必要执行finalize()方法。当对象没有覆盖finalize()方法，或者finalize()方法已经被虚拟机调用过（也就是说对象的finalize()方法只能被调用一次），虚拟机将这两种情况都视为“没有必要执行”。<br>    如果这个对象被判定为有必要执行finalize()方法，那么这个对象将会放置在一个叫做F-Queue的队列中，并在稍后由一个由虚拟机自动建立的、低优先级的Finalizer线程去执行它（即去执行对象的finalize()方法，这里所谓的“执行”是值虚拟机会触发这个方法，但并不承若会等待它运行结束，主要是为了防止对象的finalize方法执行缓慢或发生死循环，导致其他对象不能被执行的，从而引起内存回收系统崩溃）。<br>    finalize()方法是对象逃脱死亡命运的最后一次机会，稍后GC将对F-Queue中的对象进行第二次小规模的标记，如果对象要在finalize()中成功拯救自己——只需要重新与引用链上的任何一个对象建立关联即可，譬如把自己（this）赋值给某个类变量或者对象的成员变量，那在第二次标记时它将被移除出“即将回收”的集合；如果对象这时候还没有逃脱，那基本上它就真的被回收了。</p>
+<p>（2）可达性分析算法(根搜索算法)<br><strong>目前主流的虚拟机，如java默认虚拟机HotSpot就是用的这种方式</strong>。算法基本思路为：【通过一系列的称为“<strong>GC Roots</strong>”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为<strong>引用链</strong>，当一个对象到GC Roots没有任何引用链相连时（或者说从GC Roots到这个对象不可达），则证明此对象是不可用的】。<br>可作为GC Roots的对象包括：<br>1）虚拟机栈（栈帧中的本地变量表）中引用的对象；<br>2）方法区中类静态static属性引用的对象；<br>3）方法区中常量final引用的对象；<br>4）本地方法栈中JNI（即一般说的Native方法）引用的对象；<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/gcroot.jpg" alt=""><br>    需要注意的是，即使在可达性分析算法中不可达的对象，也并非是“非死不可”的，要真正宣告一个对象死亡，至少要经历<strong>两次标记</strong>过程：如果对象在进行可达性分析后发现没有与GC Roots相连接的引用链，那它将会被第一次标记并且进行一次筛选，筛选的条件是此对象是否有必要执行finalize()方法。当对象没有覆盖finalize()方法，或者finalize()方法已经被虚拟机调用过（也就是说对象的finalize()方法只能被调用一次），虚拟机将这两种情况都视为“没有必要执行”。<br>    如果这个对象被判定为有必要执行finalize()方法，那么这个对象将会放置在一个叫做F-Queue的队列中，并在稍后由一个由虚拟机自动建立的、低优先级的Finalizer线程去执行它（即去执行对象的finalize()方法，这里所谓的“执行”是值虚拟机会触发这个方法，但并不承若会等待它运行结束，主要是为了防止对象的finalize方法执行缓慢或发生死循环，导致其他对象不能被执行的，从而引起内存回收系统崩溃）。<br>    finalize()方法是对象逃脱死亡命运的最后一次机会，稍后GC将对F-Queue中的对象进行第二次小规模的标记，如果对象要在finalize()中成功拯救自己——只需要重新与引用链上的任何一个对象建立关联即可，譬如把自己（this）赋值给某个类变量或者对象的成员变量，那在第二次标记时它将被移除出“即将回收”的集合；如果对象这时候还没有逃脱，那基本上它就真的被回收了。</p>
 <p>因此对于<strong>不可达对象判定真正死亡的过程</strong>小结如下：<br>（1）GC进行第一次标记并进行一次筛选（筛选那些覆盖了finalize方法并且finalize方法是第一次调用的对象）；–&gt; （2）另一个低优先级的线程去调用那些被筛选出来的对象的finalize方法；–&gt; （3）GC进行第二次标记，如果在前一步中那些筛选出来的对象没有在finalize拯救自己，此时，那些未被筛选到的和这些这些筛选到的但是没有拯救自己的对象都将会回收。</p>
 <h3 id="1-3如何回收？"><a href="#1-3如何回收？" class="headerlink" title="1.3如何回收？"></a>1.3如何回收？</h3><p>如何高效地进行垃圾回收？由于Java虚拟机规范并没有对如何实现垃圾收集器做出明确的规定，因此各个厂商的虚拟机可以采用不同的方式来实现垃圾收集器，所以在此只讨论几种常见的垃圾收集算法的核心思想。</p>
-<h2 id="二-典型的垃圾回收算法"><a href="#二-典型的垃圾回收算法" class="headerlink" title="二.典型的垃圾回收算法"></a>二.典型的垃圾回收算法</h2><h3 id="2-1-Mark-Sweep（标记-清除）算法"><a href="#2-1-Mark-Sweep（标记-清除）算法" class="headerlink" title="2.1 Mark-Sweep（标记-清除）算法"></a>2.1 Mark-Sweep（标记-清除）算法</h3><p>是最基础的垃圾回收算法，之所以说它是最基础的是因为它最容易实现，思想也是最简单的。分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象所占用的空间。标记过程就是上面可达性分析算法中所讲的二次标记过程。<br>缺点：<br>（1）效率问题：标记和清除的两个过程效率都不高；<br>（2）空间问题：标记清除后会产生大量不连续的内存碎片，空间碎片太多可能会导致以后需要分配较大对象时，无法找到足够的连续内存而不得不提前出发另一次垃圾收集动作；</p>
+<h2 id="二-典型的垃圾回收算法"><a href="#二-典型的垃圾回收算法" class="headerlink" title="二.典型的垃圾回收算法"></a>二.典型的垃圾回收算法</h2><p>垃圾回收算法主要有三种，分别是标记-清除算法、复制算法、标记-整理算法。<br>所谓的分代收集算法，也是针对新生代、老年代配合使用这3种。</p>
+<h3 id="2-1-Mark-Sweep（标记-清除）算法"><a href="#2-1-Mark-Sweep（标记-清除）算法" class="headerlink" title="2.1 Mark-Sweep（标记-清除）算法"></a>2.1 Mark-Sweep（标记-清除）算法</h3><p>是最基础的垃圾回收算法，之所以说它是最基础的是因为它最容易实现，思想也是最简单的。分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象所占用的空间。标记过程就是上面可达性分析算法中所讲的二次标记过程。<br>缺点：<br>（1）效率问题：标记和清除的两个过程效率都不高；<br>（2）空间问题：标记清除后会产生大量不连续的内存碎片，空间碎片太多可能会导致以后需要分配较大对象时，无法找到足够的连续内存而不得不提前出发另一次垃圾收集动作；</p>
 <h3 id="2-2-Copying（复制）算法"><a href="#2-2-Copying（复制）算法" class="headerlink" title="2.2 Copying（复制）算法"></a>2.2 Copying（复制）算法</h3><p>为了解决Mark-Sweep算法的缺陷，Copying算法就被提了出来。它将可用内存按容量划分为<strong>大小相等</strong>的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用的内存空间一次清理掉，这样一来就不容易出现内存碎片的问题。<br>优点：运行高效且不容易产生内存碎片；<br>缺点：能够使用的内存缩减到原来的一半。</p>
 <h3 id="2-3-Mark-Compact（标记-整理）算法"><a href="#2-3-Mark-Compact（标记-整理）算法" class="headerlink" title="2.3 Mark-Compact（标记-整理）算法"></a>2.3 Mark-Compact（标记-整理）算法</h3><p>为了解决Copying算法的缺陷，充分利用内存空间，提出了Mark-Compact算法。该算法标记阶段和Mark-Sweep一样，但是在完成标记之后，它不是直接清理可回收对象，而是<strong>将存活对象都向一端移动</strong>，然后清理掉端边界以外的内存。</p>
 <h3 id="2-4-Generational-Collection（分代收集）算法"><a href="#2-4-Generational-Collection（分代收集）算法" class="headerlink" title="2.4 Generational Collection（分代收集）算法"></a>2.4 Generational Collection（分代收集）算法</h3><p><strong>分代收集算法是目前大部分JVM的垃圾收集器采用的算法</strong>。它是基于这样一个事实：<strong>不同对象的生命周期是不一样的</strong>。因此，不同生命周期的对象可以采取不同的回收算法，以便提高回收效率。它的核心思想是根据对象存活的生命周期<strong>将内存划分为若干个不同的区域</strong>。一般情况下将堆区划分为<strong>老年代</strong>（Tenured Generation）和<strong>新生代</strong>（Young Generation），<strong>老年代内存比新生代也大很多(大概比例是2:1)</strong>，老年代的特点是每次垃圾收集时只有少量对象需要被回收，而新生代的特点是每次垃圾回收时都有大量的对象需要被回收，那么就可以根据不同代的特点采取最适合的收集算法。</p>
@@ -132,7 +133,7 @@ var _hmt = _hmt || [];
 <table border="1" width="100%" cellpadding="0" cellspacing="0"><tr align="center"><th></th><th>新生代GC方式</th><th>老年代和持久代GC方式</th></tr><tr align="left"><td>-XX:+UseSerialGC</td><td>Serial 串行GC</td><td>Serial Old 串行GC</td></tr><tr align="left"><td>-XX:+UseParallelGC</td><td>Parallel Scavenge  并行回收GC</td><td>Parallel Old 并行GC</td></tr><tr align="left"><td>-XX:+UseConcMarkSweepGC</td><td>ParNew 并行GC</td><td>CMS 并发GC ; 当出现“Concurrent Mode Failure”时采用Serial Old 串行GC</td></tr><tr align="left"><td>-XX:+UseParNewGC</td><td>ParNew 并行GC</td><td>Serial Old 串行GC</td></tr><tr align="left"><td>-XX:+UseParallelOldGC</td><td>Parallel Scavenge  并行回收GC</td><td>Parallel Old 并行GC</td></tr><tr align="left"><td>-XX:+UseConcMarkSweepGC -XX:+UseParNewGC</td><td>Serial 串行GC</td><td>CMS 并发GC ; 当出现“Concurrent Mode Failure”时采用Serial Old 串行GC</td></tr></table>
 
 
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>周志明的《深入理解java虚拟机》</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>周志明的《深入理解java虚拟机》<br><a href="http://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/" target="_blank" rel="external">Oracle官网上的，权威、原汁原味的介绍了垃圾收集器</a></p>
 
       
     </div>
@@ -177,7 +178,7 @@ var _hmt = _hmt || [];
 
 <nav id="pagination" >
     
-    <a href="/2015/03/15/从SVN转到Git/" class="alignleft prev" >上一页</a>
+    <a href="/2015/03/01/常用JVM配置参数/" class="alignleft prev" >上一页</a>
     
     
     <a href="/2015/02/24/从Android到JavaWeb/" class="alignright next" >下一页</a>
@@ -226,7 +227,7 @@ gitment.render('container')
   
     <li><a href="/categories/工具/">工具</a><small>2</small></li>
   
-    <li><a href="/categories/技术/">技术</a><small>16</small></li>
+    <li><a href="/categories/技术/">技术</a><small>17</small></li>
   
     <li><a href="/categories/折腾/">折腾</a><small>1</small></li>
   
@@ -265,7 +266,9 @@ gitment.render('container')
   
     <li><a href="/tags/Hexo/">Hexo</a><small>1</small></li>
   
-    <li><a href="/tags/Java/">Java</a><small>5</small></li>
+    <li><a href="/tags/JVM配置参数/">JVM配置参数</a><small>1</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>6</small></li>
   
     <li><a href="/tags/Jenkins/">Jenkins</a><small>1</small></li>
   
