@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Coding.net | Jackhai</title>
+  <title>垃圾回收 | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -74,7 +74,7 @@ var _hmt = _hmt || [];
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">Coding.net</h2>
+<h2 class="archive-title tag">垃圾回收</h2>
 
 
   
@@ -84,28 +84,24 @@ var _hmt = _hmt || [];
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-11-21T11:50:53.000Z"><a href="/2014/11/21/使用gitcafe同步github/">Nov 21 2014</a></time>
+        <time datetime="2015-02-27T12:25:11.000Z"><a href="/2015/02/27/Java垃圾回收机制/">Feb 27 2015</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/11/21/使用gitcafe同步github/">使用gitcafe同步github</a></h1>
+    <h1 class="title"><a href="/2015/02/27/Java垃圾回收机制/">Java垃圾回收机制</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p><strong>注意：2016年6月开始 gitcafe 已迁移至 Coding.net</strong></p>
-<p>从监控宝和百度统计来看，我github上搭建的blog访问还是慢，在gitcafe上搞个备份。</p>
-<p>有点复杂，记录下步骤，防止遗忘：</p>
-<p>1.在<a href="https://gitcafe.com/">gitcafe</a>注册账号、创建同名项目等步骤，同github一样，<a href="http://jackhai9.github.io/2014/11/06/转投hexo-使用hexo在github写博客/">见此</a>。</p>
-<p><del>2.<strong>在github和gitcafe上同时上传博客的时候，不能使用相同的秘钥。</strong></del></p>
+        <p>垃圾回收（Garbage Collection，GC），在Java中，程序员不需要去关心内存动态分配和垃圾回收的问题，这一切都交给了JVM来处理。顾名思义，垃圾回收就是释放垃圾占用的空间，那么在Java中，什么样的对象会被认定为“垃圾”？那么当一些对象被确定为垃圾之后，采用什么样的策略来进行回收（释放空间）？在目前的商业虚拟机中，有哪些典型的垃圾收集器？<br>一.垃圾回收要解决的问题（哪些内存需要回收？什么时候回收？如何回收？）<br>二.典型的垃圾回收算法<br>三.典型的垃圾回收器<br>四.垃圾收集器参数总结</p>
       
     </div>
     <footer>
       
         
           <div class="alignleft">
-            <a href="/2014/11/21/使用gitcafe同步github/#more" class="more-link">Read More</a>
+            <a href="/2015/02/27/Java垃圾回收机制/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -143,13 +139,13 @@ var _hmt = _hmt || [];
   
     <li><a href="/categories/工具/">工具</a><small>2</small></li>
   
-    <li><a href="/categories/技术/">技术</a><small>11</small></li>
+    <li><a href="/categories/技术/">技术</a><small>16</small></li>
   
     <li><a href="/categories/折腾/">折腾</a><small>1</small></li>
   
     <li><a href="/categories/转载/">转载</a><small>2</small></li>
   
-    <li><a href="/categories/随记/">随记</a><small>3</small></li>
+    <li><a href="/categories/随记/">随记</a><small>2</small></li>
   
   </ul>
 </div>
@@ -162,11 +158,7 @@ var _hmt = _hmt || [];
   
     <li><a href="/tags/ActiveMQ/">ActiveMQ</a><small>1</small></li>
   
-    <li><a href="/tags/Android/">Android</a><small>3</small></li>
-  
-    <li><a href="/tags/CI/">CI</a><small>1</small></li>
-  
-    <li><a href="/tags/Coding-net/">Coding.net</a><small>1</small></li>
+    <li><a href="/tags/ClassLoader/">ClassLoader</a><small>1</small></li>
   
     <li><a href="/tags/ContentProvider/">ContentProvider</a><small>1</small></li>
   
@@ -174,21 +166,19 @@ var _hmt = _hmt || [];
   
     <li><a href="/tags/ESB/">ESB</a><small>1</small></li>
   
-    <li><a href="/tags/Eclipse/">Eclipse</a><small>1</small></li>
-  
     <li><a href="/tags/Error/">Error</a><small>1</small></li>
   
     <li><a href="/tags/Exception/">Exception</a><small>1</small></li>
   
-    <li><a href="/tags/Gaea/">Gaea</a><small>1</small></li>
+    <li><a href="/tags/Filter/">Filter</a><small>1</small></li>
   
-    <li><a href="/tags/Git/">Git</a><small>1</small></li>
+    <li><a href="/tags/Gaea/">Gaea</a><small>1</small></li>
   
     <li><a href="/tags/Handler/">Handler</a><small>1</small></li>
   
     <li><a href="/tags/Hexo/">Hexo</a><small>1</small></li>
   
-    <li><a href="/tags/Java/">Java</a><small>1</small></li>
+    <li><a href="/tags/Java/">Java</a><small>5</small></li>
   
     <li><a href="/tags/Jenkins/">Jenkins</a><small>1</small></li>
   
@@ -196,13 +186,9 @@ var _hmt = _hmt || [];
   
     <li><a href="/tags/Looper/">Looper</a><small>1</small></li>
   
-    <li><a href="/tags/Message/">Message</a><small>1</small></li>
-  
     <li><a href="/tags/MessageQueue/">MessageQueue</a><small>1</small></li>
   
     <li><a href="/tags/MyBatis/">MyBatis</a><small>1</small></li>
-  
-    <li><a href="/tags/Nginx/">Nginx</a><small>1</small></li>
   
     <li><a href="/tags/ORM/">ORM</a><small>1</small></li>
   
@@ -210,19 +196,15 @@ var _hmt = _hmt || [];
   
     <li><a href="/tags/SSD/">SSD</a><small>1</small></li>
   
-    <li><a href="/tags/ServiceMix/">ServiceMix</a><small>1</small></li>
-  
-    <li><a href="/tags/Shelves-app/">Shelves app</a><small>1</small></li>
+    <li><a href="/tags/Servlet/">Servlet</a><small>1</small></li>
   
     <li><a href="/tags/SpingMVC/">SpingMVC</a><small>1</small></li>
   
-    <li><a href="/tags/Uri/">Uri</a><small>1</small></li>
-  
-    <li><a href="/tags/gitcafe/">gitcafe</a><small>1</small></li>
+    <li><a href="/tags/gc/">gc</a><small>1</small></li>
   
     <li><a href="/tags/企业号/">企业号</a><small>1</small></li>
   
-    <li><a href="/tags/公众号/">公众号</a><small>1</small></li>
+    <li><a href="/tags/内存模型/">内存模型</a><small>1</small></li>
   
     <li><a href="/tags/分布式服务架构/">分布式服务架构</a><small>1</small></li>
   
@@ -230,21 +212,19 @@ var _hmt = _hmt || [];
   
     <li><a href="/tags/反向代理/">反向代理</a><small>1</small></li>
   
+    <li><a href="/tags/垃圾回收/">垃圾回收</a><small>1</small></li>
+  
     <li><a href="/tags/异步消息/">异步消息</a><small>1</small></li>
   
-    <li><a href="/tags/微信/">微信</a><small>1</small></li>
-  
-    <li><a href="/tags/文章/">文章</a><small>1</small></li>
-  
-    <li><a href="/tags/服务/">服务</a><small>1</small></li>
+    <li><a href="/tags/性能调优/">性能调优</a><small>1</small></li>
   
     <li><a href="/tags/版本控制工具/">版本控制工具</a><small>1</small></li>
+  
+    <li><a href="/tags/订阅号/">订阅号</a><small>1</small></li>
   
     <li><a href="/tags/读书/">读书</a><small>1</small></li>
   
     <li><a href="/tags/负载均衡/">负载均衡</a><small>1</small></li>
-  
-    <li><a href="/tags/重装系统/">重装系统</a><small>1</small></li>
   
     <li><a href="/tags/高可用/">高可用</a><small>1</small></li>
   
