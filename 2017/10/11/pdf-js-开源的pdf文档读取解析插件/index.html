@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>版本控制工具 | Jackhai</title>
+  <title>pdf.js--开源的pdf文档读取解析插件 | Jackhai</title>
   <meta name="author" content="李振海">
   
   <meta name="description" content="李振海de博客">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="pdf.js--开源的pdf文档读取解析插件"/>
   <meta property="og:site_name" content="Jackhai"/>
 
   
@@ -73,37 +73,62 @@ var _hmt = _hmt || [];
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">版本控制工具</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-03-15T08:59:58.000Z"><a href="/2015/03/15/从SVN转到Git/">Mar 15 2015</a></time>
+        <time datetime="2017-10-11T13:50:17.000Z"><a href="/2017/10/11/pdf-js-开源的pdf文档读取解析插件/">Oct 11 2017</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/03/15/从SVN转到Git/">从SVN转到Git</a></h1>
+    <h1 class="title">pdf.js--开源的pdf文档读取解析插件</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>年后来了，部门要求版本控制工具都统一使用Git，之前学的终于可以派上用场了，哈哈。</p>
-<p>除了常规的add，commit，push，poll，branch，merge, 其他一些不常用的也已经忘记了，今天发现个介绍的比较详细的文档，学习了。</p>
-<p>Git使用文档见<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">这里</a>。</p>
+        <p>pdf.js可以实现在html下直接浏览pdf文档，pdf.js框架的魅力所在，是其为HTML5实现的，无需任何本地支持，而且对浏览器的兼容性也是比较好，要求只有一个：浏览器只要支持HTML5！</p>
+<a id="more"></a>
+<p>GitHub源码: <a href="https://github.com/mozilla/pdf.js/" target="_blank" rel="external">https://github.com/mozilla/pdf.js/</a></p>
+<p>下载源码后，根据github上的构建方法构建，如下图：<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/Screen%20Shot%202017-10-11%20at%2010.53.32%20PM.png" alt=""></p>
+<p>build和web这两个目录是关键。<br>把这两个目录及其内容拷贝到需要的web项目中，稍微修改即可使用，或者进行相应二次开发使用。</p>
 
       
     </div>
     <footer>
       
         
+  
+  <div class="categories">
+    <a href="/categories/技术/">技术</a>
+  </div>
+
         
+  
+  <div class="tags">
+    <a href="/tags/pdfjs/">pdfjs</a>, <a href="/tags/前端/">前端</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
       
       <div class="clearfix"></div>
     </footer>
@@ -111,15 +136,37 @@ var _hmt = _hmt || [];
 </article>
 
 
-
-
-  
-
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
+<nav id="pagination" >
+    
+    
+    <a href="/2017/08/02/Java8内存模型—永久代-PermGen-和元空间-Metaspace/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
 </nav>
+
+<section id="comment">
+
+<!-- Gitment JS代码 start -->
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '页面 ID', // 可选。默认为 location.href
+  owner: 'jackhai9',
+  repo: 'jackhai9.github.io',
+  oauth: {
+    client_id: '58885a09b9ce2fc5394e',
+    client_secret: 'ce532ef0a016f796262b0a63d5e54acbe3146524',
+  },
+})
+gitment.render('container')
+</script>
+<!-- Gitment JS代码 end -->
+
+</section>
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
