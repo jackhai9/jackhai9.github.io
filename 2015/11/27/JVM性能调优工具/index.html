@@ -108,8 +108,8 @@ var _hmt = _hmt || [];
 </code></pre><p>GC的基本概念<br>gc 分为 full gc 和 minor gc，当每一块区满的时候都会引发 gc。<br>    •    Scavenge GC<br>一般情况下，当新对象生成，并且在 Eden 申请空间失败时，就触发了 Scavenge GC，堆 Eden 区域进行 GC，清除非存活对象，并且把尚且存活的对象移动到 Survivor 区。然后整理 Survivor 的两个区。<br>    •    Full GC<br>对整个堆进行整理，包括 Young、Tenured 和 Perm。Full GC 比 Scavenge GC 要慢，因此应该尽可能减少 Full GC。有如下原因可能导致 Full GC：<br>上一次 GC 之后 Heap 的各域分配策略动态变化<br>    •    System.gc() 被显示调用<br>    •    Perm 域被写满<br>    •    Old 被写满<br>内存溢出 out of memory，是指程序在申请内存时，没有足够的内存空间供其使用，出现out of memory；比如申请了一个integer,但给它存了long才能存下的数，那就是内存溢出。<br>内存泄露 memory leak，是指程序在申请内存后，无法释放已申请的内存空间，一次内存泄露危害可以忽略，但内存泄露堆积后果很严重，无论多少内存,迟早会被占光。其实说白了就是该内存空间使用完毕之后未回收。</p>
 <p>2、VisualVM 的其他功能 监视界面（cpu，类，堆，线程）</p>
 <p>堆dump和线程dump操作：<br>Dump文件是进程的内存镜像，可以把程序的执行状态通过调试器保存到dump文件中。</p>
-<p>dump文件可以使用<a href="http://www.eclipse.org/mat/" target="_blank" rel="external">MAT</a>(Memory Analyzer Tool)内存分析工具以图形界面的方式展现结果。</p>
-<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="https://www.ibm.com/developerworks/cn/java/j-lo-visualvm/" target="_blank" rel="external">使用 VisualVM 进行性能分析及调优</a></p>
+<p>dump文件可以使用<a href="http://www.eclipse.org/mat/" target="_blank" rel="noopener">MAT</a>(Memory Analyzer Tool)内存分析工具以图形界面的方式展现结果。</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="https://www.ibm.com/developerworks/cn/java/j-lo-visualvm/" target="_blank" rel="noopener">使用 VisualVM 进行性能分析及调优</a></p>
 
       
     </div>
@@ -321,7 +321,7 @@ gitment.render('container')
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2017 李振海
+  &copy; 2018 李振海
   
 </div>
 <div class="clearfix"></div></footer>

@@ -136,7 +136,7 @@ var _hmt = _hmt || [];
 2.    指令级并行的重排序。现代处理器采用了指令级并行技术来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。
 3.    内存系统的重排序。由于处理器使用缓存和读写缓冲区，这使得加载和存储操作看上去可能是在乱序执行。
 </code></pre><p>从Java源代码到最终实际执行的指令序列，会经过下面三种重排序：<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/jmm3.png" alt=""><br>为了保证内存的可见性，Java编译器在生成指令序列的适当位置会插入<strong>内存屏障指令</strong>来禁止特定类型的处理器重排序。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>  1.<a href="http://www.cnblogs.com/paddix/p/5309550.html" target="_blank" rel="external">Java8内存模型</a><br>  2.<a href="http://www.cnblogs.com/lewis0077/p/5143268.html" target="_blank" rel="external">浅析java内存模型–JMM(Java Memory Model)</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>  1.<a href="http://www.cnblogs.com/paddix/p/5309550.html" target="_blank" rel="noopener">Java8内存模型</a><br>  2.<a href="http://www.cnblogs.com/lewis0077/p/5143268.html" target="_blank" rel="noopener">浅析java内存模型–JMM(Java Memory Model)</a></p>
 
       
     </div>
@@ -348,7 +348,7 @@ gitment.render('container')
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2017 李振海
+  &copy; 2018 李振海
   
 </div>
 <div class="clearfix"></div></footer>

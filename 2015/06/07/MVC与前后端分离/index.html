@@ -96,7 +96,7 @@ var _hmt = _hmt || [];
 <p>REST是一个“无状态”的架构模式，因为在任何时候都可以由客户端发出请求到服务端，最终返回自己想要的数据，当前请求不会受到上次请求的影响。也就是说，服务端将内部资源发布REST服务，客户端通过URL来访问这些资源，这不就是SOA所提倡的“面向服务”的思想吗？所以，REST也被人们看做是一种“轻量级”的SOA实现技术，因此在企业级应用与互联网应用中都得到了广泛应用。</p>
 <p>例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">REST请求         描述</span><br><span class="line">-----------------------------</span><br><span class="line">GET:/cars       获取所有的车</span><br><span class="line">GET:/car/<span class="number">1</span>      获取id为<span class="number">1</span>的车</span><br><span class="line">POST:/car       新增<span class="number">1</span>个车</span><br><span class="line">PUT:/car/<span class="number">1</span>      更新id为<span class="number">1</span>的车</span><br><span class="line">DELETE:/car/<span class="number">1</span>   删除id为<span class="number">1</span>的车</span><br></pre></td></tr></table></figure></p>
 <p>基于REST实现前后端分离有很多好处。最大好处是前后端可以实现较好的人员分工和并行开发。双方只需要约定数据接口，而不必在代码层面有任何的耦合。传统的JSP或者后端模板方式都存在着较为严重的前后端耦合，前后端人员不仅需要掌握自身所需知识，还需要对对方的领域有一定了解；开发时进度会因为双方的大量沟通而被拖慢，且项目存在缺陷时难以分清是前后端哪一方的责任，调试困难。目前较为流行的解决方案是后端提供纯数据接口，前端使用MVC/MVVM等框架实现数据绑定、界面路由等功能，且未来的发展趋势是后端负责的任务将逐步减少，进入“大前端”时代。◑‿◑</p>
-<p>其他的比如 处理异常、参数验证、跨域问题、安全机制等问题可参考<a href="http://www.csdn.net/article/2015-10-25/2826033" target="_blank" rel="external">这里</a>。</p>
+<p>其他的比如 处理异常、参数验证、跨域问题、安全机制等问题可参考<a href="http://www.csdn.net/article/2015-10-25/2826033" target="_blank" rel="noopener">这里</a>。</p>
 
       
     </div>
@@ -308,7 +308,7 @@ gitment.render('container')
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2017 李振海
+  &copy; 2018 李振海
   
 </div>
 <div class="clearfix"></div></footer>
