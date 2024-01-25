@@ -1,8 +1,8 @@
 # jackhai9's blog
 
-这是一个基于 ``GitHub Pages`` 和 ``Hexo`` 搭建的静态博客，点击[这里](https://jackhai9.github.io)查看博客。
+这是一个基于 [GitHub Pages](https://pages.github.com/) 和 [Hexo](https://hexo.io/zh-cn/) 搭建的静态博客，点击[这里](https://jackhai9.github.io)查看博客。
 
-搭建过程或许有那么点小繁琐(其实只需要几个简单命令)，但一旦搭建完成，写文章是极简单，极舒服的。怎么个舒服法？
+搭建过程或许有那么点小繁琐（其实只需要几个简单命令），但一旦搭建完成，写文章是极简单，极舒服的。怎么个舒服法？
 
 ```bash
 $ hexo n  #开写
@@ -10,7 +10,7 @@ $ hexo g  #生成
 $ hexo d  #部署，可与hexo g合并为hexo d -g
 ```
 
-## 搭建和使用(Windows下)：
+## 搭建和使用（Windows下）
 
 ### 准备工作
 1. 安装Node.js，安装Git，还需要有GitHub账号。
@@ -32,6 +32,7 @@ $ hexo d  #部署，可与hexo g合并为hexo d -g
 
 ### 写文章和部署
 1. 新建文章：`$ hexo new [layout] "postName"` 执行new命令后，生成指定名称的文章至hexo\source_posts\postName.md。
-2. 用喜欢的编辑器(Typora)打开文件 hexo\source_posts\postName.md 开始尽情书写吧！关于markdown语法，可以参考[这里](https://markdown.com.cn/editor/)。
-3. 写完后，`$ hexo server`  然后访问localhost:4000预览效果。(退出server用Ctrl+c)。
+2. 用喜欢的markdown编辑器（Typora）打开文件 hexo\source_posts\postName.md 开始尽情书写吧！关于markdown语法，可以参考[这里](https://markdown.com.cn/editor/)。
+3. 写完后，`$ hexo server`  然后访问localhost:4000预览效果。（退出server用Ctrl+c）
 4. 然后 `$ hexo deploy` 同步到github。访问博客看看效果。 关于deploy，可以参考[这里](https://hexo.io/zh-cn/docs/commands#deploy)。
+
