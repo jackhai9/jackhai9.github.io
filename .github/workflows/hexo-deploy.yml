@@ -1,0 +1,33 @@
+name: Deploy Hexo
+
+on:
+  push:
+    branches:
+      - source  # 假设你的Hexo源文件位于'source'分支
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: source
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '20.x'  # 使用合适的Node.js版本
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      run: npm install
+    - name: Generate static files
+      run: hexo generate
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: master  # 假设你的GitHub Pages从'master'分支提供内容
+        publish_dir: ./public
