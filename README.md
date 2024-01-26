@@ -31,16 +31,20 @@
    
    - 一旦完成了MD文章的编辑或者其他配置的修改，就可以将这些Hexo源文件推送到source分支：
    
+   
+   ``` bash
    git add .
    git commit -m "添加或更新文章/修改xx配置等"
    git push
+   ```
    
-
 5. 触发GitHub Actions自动执行并部署到GitHub Pages：
    
    - 当你推送更改到source分支后，GitHub Actions会自动执行定义好的工作流程（见jackhai9.github.io\.github\workflows\hexo-deploy.yml），这通常包括：
    
+   ``` bash
    安装NodeJS、安装项目依赖、安装全局的Hexo CLI、使用Hexo命令进行编译生成静态网站文件、并将这些文件推送到用于GitHub Pages的分支（比如master或gh-pages）
+   ```
 
 
 
