@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android之ContentProvider | Jackhai</title>
+  <meta name="author" content="李振海">
+  
+  <meta name="description" content="李振海de博客">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Android之ContentProvider"/>
+  <meta property="og:site_name" content="Jackhai"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Jackhai</a></h1>
+  <h2><a href="/">Do one thing and do it well.</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Android之ContentProvider" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2014-11-17T16:39:27.000Z"><a href="/2014/11/17/Android%E4%B9%8BContentProvider/">2014-11-17</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Android之ContentProvider</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="一、ContentProvider"><a href="#一、ContentProvider" class="headerlink" title="一、ContentProvider"></a>一、ContentProvider</h2><p>Android官方指出的数据存储方式总共有五种，分别是：Shared Preferences、网络存储、文件存储、外储存储、SQLite。当应用继承ContentProvider类，并重写该类用于提供数据和存储数据的方法，就可以向其他应用共享其数据。虽然使用其他方法也可以对外共享数据，但数据访问方式会因数据存储的方式而不同，如：采用文件方式对外共享数据，需要进行文件操作读写数据；采用sharedpreferences共享数据，需要使用sharedpreferences API读写数据。而使用ContentProvider共享数据的好处是统一了数据访问方式。</p>
+<span id="more"></span> 
+
+<p>回顾一下Android中数据存储的方式有很多种：<br>(1) SharePreferences通过api进行get、put操作   —-进程内部使用，可以实现资源共享，局限性比较大<br>可以参考：<a target="_blank" rel="noopener" href="http://blog.csdn.net/shift_wwx/article/details/9243109">SharedPreference实现不同进程间的数据共享</a><br>(2) 通过file进行一些输入输出流控制   —-能实现进程间的共享，但是使用比较麻烦，个人不太喜欢用<br>(3) 通过SQLite进行数据库的读写   —-进程内部使用，可以实现资源共享，局限性比较大<br>(4) ContentProvider 进行数据的存储   —-可以实现进程间的共享，可以和SQLite配合使用(当然也可以用其他几个存储方式，稍后补充上实例)，一般实现的是大型数据操作<br>(5) 网络存储数据  —-比较麻烦，有局限性<br>(6) system.prop 也可以进行简单的数据存储    —-有局限性，有default值，可以临时修改，重启后就会恢复默认值或重新设置</p>
+<p><strong>使用ContentProvider共享数据的好处是统一了数据访问方式，可以存储一些图片等的数据。而其他的访问方式是有局限性的。</strong><br><a target="_blank" rel="noopener" href="http://blog.csdn.net/shift_wwx/article/details/24350781">参考这里</a></p>
+<h2 id="二、Uri类简介"><a href="#二、Uri类简介" class="headerlink" title="二、Uri类简介"></a>二、Uri类简介</h2><p>Uri代表了要操作的数据，Uri主要包含了两部分信息：</p>
+<p>1.需要操作的ContentProvider<br>2.对ContentProvider中的什么数据进行操作</p>
+<p>一个Uri由以下几部分组成：</p>
+<pre><code> 1.scheme：ContentProvider（内容提供者）的scheme已经由Android所规定为：content://。
+ 2.主机名（或Authority）：用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它。
+ 3.路径（path）：可以用来表示我们要操作的数据，路径的构建应根据业务而定，如下：
+   • 要操作contact表中id为10的记录，可以构建这样的路径:/contact/10
+   • 要操作contact表中id为10的记录的name字段， contact/10/name
+   • 要操作contact表中的所有记录，可以构建这样的路径:/contact
+   要操作的数据不一定来自数据库，也可以是文件等其他存储方式，如下:
+     要操作xml文件中contact节点下的name节点，可以构建这样的路径：/contact/name
+</code></pre>
+<p>如果要把一个字符串转换成Uri，可以使用Uri类中的parse()方法，如下：</p>
+<pre><code>Uri uri = Uri.parse(&quot;content://com.changcheng.provider.contactprovider/contact&quot;)
+</code></pre>
+<h2 id="三、UriMatcher、ContentUrist和ContentResolver简介"><a href="#三、UriMatcher、ContentUrist和ContentResolver简介" class="headerlink" title="三、UriMatcher、ContentUrist和ContentResolver简介"></a>三、UriMatcher、ContentUrist和ContentResolver简介</h2><p>因为Uri代表了要操作的数据，所以我们经常需要解析Uri，并从Uri中获取数据。Android系统提供了两个用于操作Uri的工具类，分别为UriMatcher和ContentUris。掌握它们的使用，会便于我们的开发工作。<br>UriMatcher：用于匹配Uri，它的用法如下：</p>
+<pre><code>   1.首先把你需要匹配Uri路径全部给注册上，如下：
+   //常量UriMatcher.NO_MATCH表示不匹配任何路径的返回码(-1)。
+   UriMatcher  uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+   //如果match()方法匹配content://com.changcheng.sqlite.provider.contactprovider/contact路径，返回匹配码为1
+   uriMatcher.addURI(“com.changcheng.sqlite.provider.contactprovider”, “contact”, 1);//添加需要匹配uri，如果匹配就会返回匹配码
+
+   //如果match()方法匹配content://com.changcheng.sqlite.provider.contactprovider/contact/230路径，返回匹配码为2
+   uriMatcher.addURI(“com.changcheng.sqlite.provider.contactprovider”, “contact/#”, 2);//#号为通配符
+  
+   2.注册完需要匹配的Uri后，就可以使用uriMatcher.match(uri)方法对输入的Uri进行匹配，如果匹配就返回匹配码，匹配码是调用addURI()方法传入的第三个参数，
+   假设匹配content://com.changcheng.sqlite.provider.contactprovider/contact路径，返回的匹配码为1。
+</code></pre>
+<p>ContentUris：用于获取Uri路径后面的ID部分，它有两个比较实用的方法：</p>
+<ul>
+<li>withAppendedId(uri, id)用于为路径加上ID部分</li>
+<li>parseId(uri)方法用于从路径中获取ID部分</li>
+</ul>
+<p>ContentResolver：当外部应用需要对ContentProvider中的数据进行添加、删除、修改和查询操作时，可以使用ContentResolver类来完成，要获取ContentResolver对象，可以使用Activity提供的getContentResolver()方法。 ContentResolver使用insert、delete、update、query方法来操作数据。</p>
+<h2 id="四、详细图解"><a href="#四、详细图解" class="headerlink" title="四、详细图解"></a>四、详细图解</h2><p> ~ <del>这下你能看懂了吧！</del> ~</p>
+<p>1、<img src="http://jackhai.qiniudn.com/1.png"></p>
+<p>2、<img src="http://jackhai.qiniudn.com/2.png"></p>
+<p>3、<img src="http://jackhai.qiniudn.com/3.png"></p>
+<p>4、<img src="http://jackhai.qiniudn.com/4_%E6%80%BB%E7%BB%93.png"></p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/ContentProvider/">ContentProvider</a>
+  </div>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-comments" data-href="https://jackhai9.github.io/2014/11/17/Android%E4%B9%8BContentProvider/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+      
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="as_sitesearch" value="jackhai9.github.io">
+  </form>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Hexo/">Hexo</a><small>1</small></li>
+  
+    <li><a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><small>2</small></li>
+  
+    <li><a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a><small>19</small></li>
+  
+    <li><a href="/categories/%E6%8A%98%E8%85%BE/">折腾</a><small>1</small></li>
+  
+    <li><a href="/categories/%E8%BD%AC%E8%BD%BD/">转载</a><small>2</small></li>
+  
+    <li><a href="/categories/%E9%9A%8F%E8%AE%B0/">随记</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/ActiveMQ/">ActiveMQ</a><small>1</small></li>
+  
+    <li><a href="/tags/ClassLoader/">ClassLoader</a><small>1</small></li>
+  
+    <li><a href="/tags/ContentProvider/">ContentProvider</a><small>1</small></li>
+  
+    <li><a href="/tags/Dubbo/">Dubbo</a><small>1</small></li>
+  
+    <li><a href="/tags/ESB/">ESB</a><small>1</small></li>
+  
+    <li><a href="/tags/Error/">Error</a><small>1</small></li>
+  
+    <li><a href="/tags/Exception/">Exception</a><small>1</small></li>
+  
+    <li><a href="/tags/Filter/">Filter</a><small>1</small></li>
+  
+    <li><a href="/tags/Gaea/">Gaea</a><small>1</small></li>
+  
+    <li><a href="/tags/Handler/">Handler</a><small>1</small></li>
+  
+    <li><a href="/tags/Hexo/">Hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/JVM%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0/">JVM配置参数</a><small>1</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>6</small></li>
+  
+    <li><a href="/tags/Jenkins/">Jenkins</a><small>1</small></li>
+  
+    <li><a href="/tags/ListView/">ListView</a><small>1</small></li>
+  
+    <li><a href="/tags/Looper/">Looper</a><small>1</small></li>
+  
+    <li><a href="/tags/MessageQueue/">MessageQueue</a><small>1</small></li>
+  
+    <li><a href="/tags/MyBatis/">MyBatis</a><small>1</small></li>
+  
+    <li><a href="/tags/ORM/">ORM</a><small>1</small></li>
+  
+    <li><a href="/tags/REST/">REST</a><small>1</small></li>
+  
+    <li><a href="/tags/SSD/">SSD</a><small>1</small></li>
+  
+    <li><a href="/tags/Servlet/">Servlet</a><small>1</small></li>
+  
+    <li><a href="/tags/SpingMVC/">SpingMVC</a><small>1</small></li>
+  
+    <li><a href="/tags/gc/">gc</a><small>1</small></li>
+  
+    <li><a href="/tags/nodejs/">nodejs</a><small>1</small></li>
+  
+    <li><a href="/tags/pdfjs/">pdfjs</a><small>1</small></li>
+  
+    <li><a href="/tags/%E4%BC%81%E4%B8%9A%E5%8F%B7/">企业号</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">内存模型</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/">分布式服务架构</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/">前后端分离</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%89%8D%E7%AB%AF/">前端</a><small>2</small></li>
+  
+    <li><a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF/">异步消息</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">性能调优</a><small>1</small></li>
+  
+    <li><a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/">版本控制工具</a><small>1</small></li>
+  
+    <li><a href="/tags/%E8%AE%A2%E9%98%85%E5%8F%B7/">订阅号</a><small>1</small></li>
+  
+    <li><a href="/tags/%E8%AF%BB%E4%B9%A6/">读书</a><small>1</small></li>
+  
+    <li><a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a><small>1</small></li>
+  
+    <li><a href="/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/">高可用</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2024 李振海
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script>
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  
+  <title>常用JVM配置参数 | Jackhai</title>
+  <meta name="author" content="李振海">
+  
+  <meta name="description" content="李振海de博客">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="常用JVM配置参数"/>
+  <meta property="og:site_name" content="Jackhai"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Jackhai</a></h1>
+  <h2><a href="/">Do one thing and do it well.</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-常用JVM配置参数" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2015-03-01T15:12:52.000Z"><a href="/2015/03/01/%E5%B8%B8%E7%94%A8JVM%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0/">2015-03-01</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">常用JVM配置参数</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="一、Trace跟踪参数："><a href="#一、Trace跟踪参数：" class="headerlink" title="一、Trace跟踪参数："></a>一、Trace跟踪参数：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-verbose:gc</span><br><span class="line">-XX:+printGC</span><br></pre></td></tr></table></figure>
+
+<p>解释：如上，打印GC的简要信息。比如：</p>
+<span id="more"></span>
+<p>[GC 4790K-&gt;374K(15872K), 0.0001606 secs]<br>[GC 4790K-&gt;374K(15872K), 0.0001474 secs]<br>[GC 4790K-&gt;374K(15872K), 0.0001563 secs]<br>[GC 4790K-&gt;374K(15872K), 0.0001682 secs]<br>上方日志的意思是说，GC之前，用了4M左右的内存，GC之后，用了374K内存，一共回收了将近4M。内存大小一共是16M左右。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintGCDetails</span><br></pre></td></tr></table></figure>
+
+<p>解释：如上，打印GC详细信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintGCTimeStamps</span><br></pre></td></tr></table></figure>
+
+<p>解释：如上，打印CG发生的时间戳。</p>
+<p>理解GC日志的含义：<br>例如下面这段日志：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[GC[DefNew: 4416K-&gt;0K(4928K), 0.0001897 secs] 4790K-&gt;374K(15872K), 0.0002232 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br></pre></td></tr></table></figure>
+
+<p>上面日志的意思是说：<br>这是一个新生代的GC。方括号内部的“4416K-&gt;0K(4928K)”含义是：“GC前该内存区域已使用容量-&gt;GC后该内存区域已使用容量（该内存区域总容量）”。<br>而在方括号之外的“4790K-&gt;374K(15872K)”表示“GC前Java堆已使用容量-&gt;GC后Java堆已使用容量（Java堆总容量）”。<br>再往后看，“0.0001897 secs”表示该内存区域GC所占用的时间，单位是秒。</p>
+<p>再比如下面这段GC日志：<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm1.png"><br>上图中，我们先看一下用红框标注的“[0x27e80000, 0x28d80000, 0x28d80000)”的含义，它表示新生代在内存当中的位置：第一个参数是申请到的起始位置，第二个参数是申请到的终点位置，第三个参数表示最多能申请到的位置。上图中的例子表示新生代申请到了15M的控件，而这个15M是等于：（eden space的12288K）+（from space的1536K）+（to space的1536K）。<br>疑问：分配到的新生代有15M，但是可用的只有13824K，为什么会有这个差异呢？</p>
+<p>指定GC log的位置:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xloggc:log/gc.log</span><br></pre></td></tr></table></figure>
+
+<p>解释：如上，指定GC log的位置，以文件输出，当前项目目录下的log目录下。帮助开发人员分析问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintHeapAtGC</span><br></pre></td></tr></table></figure>
+
+<p>解释：如上，每一次GC前和GC后，都打印堆信息。<br>例如：<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm2.png"><br>上图中，红框部分正好是一次GC，红框部分的前面是GC之前的日志，红框部分的后面是GC之后的日志。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+TraceClassLoading</span><br></pre></td></tr></table></figure>
+
+<p>解释：如上，监控类的加载。<br>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Loaded java.lang.Object from shared objects file]</span><br><span class="line">[Loaded java.io.Serializable from shared objects file]</span><br><span class="line">[Loaded java.lang.Comparable from shared objects file]</span><br><span class="line">[Loaded java.lang.CharSequence from shared objects file]</span><br><span class="line">[Loaded java.lang.String from shared objects file]</span><br><span class="line">[Loaded java.lang.reflect.GenericDeclaration from shared objects file]</span><br><span class="line">[Loaded java.lang.reflect.Type from shared objects file]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintClassHistogram</span><br></pre></td></tr></table></figure>
+<p>解释：如上，按下Ctrl+Break后，打印类的信息。<br>例如：<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm3.png"></p>
+<h2 id="二、堆的分配参数："><a href="#二、堆的分配参数：" class="headerlink" title="二、堆的分配参数："></a>二、堆的分配参数：</h2><p>1、**-Xmx –Xms：指定最大堆和最小堆**<br>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx20m -Xms5m</span><br></pre></td></tr></table></figure>
+
+<p>2、-Xmn、-XX:NewRatio、-XX:SurvivorRatio<br>    -Xmn 设置新生代大小<br>    -XX:NewRatio  新生代（eden+2*s）和老年代（不包含永久区）的比值<br>    　　　　      例如：4，表示新生代:老年代&#x3D;1:4，即新生代占整个堆的1&#x2F;5<br>    -XX:SurvivorRatio（幸存代）设置两个Survivor区和eden的比值<br>    　　　　          例如：8，表示两个Survivor:eden&#x3D;2:8，即一个Survivor占新生代的1&#x2F;10<br>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx20m -Xms20m -Xmn7m -XX:SurvivorRatio=2 -XX:+PrintGCDetails</span><br></pre></td></tr></table></figure>
+
+<p>3、-XX:+HeapDumpOnOutOfMemoryError、-XX:+HeapDumpPath<br>    -XX:+HeapDumpOnOutOfMemoryError  OOM时导出堆到文件，根据这个文件，我们可以看到系统dump时发生了什么<br>    -XX:+HeapDumpPath   导出OOM的路径<br>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx20m -Xms5m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=d:/a.dump</span><br></pre></td></tr></table></figure>
+
+<p>如上意思是说，现在给堆内存最多分配20M的空间。如果发生了OOM异常，那就把dump信息导出到d:&#x2F;a.dump文件中。</p>
+<p>可以使用Java自带的Java VisualVM工具对dump文件进行分析。</p>
+<p>4、-XX:OnOutOfMemoryError<br>在OOM时，执行一个脚本。（可以在OOM时，发送邮件，甚至是重启程序。）<br>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:OnOutOfMemoryError=D:/tools/jdk1.7_40/bin/printstack.bat %p //p代表的是当前进程的pid </span><br></pre></td></tr></table></figure>
+
+<p>如上参数的意思是说，执行printstack.bat脚本，而这个脚本做的事情是：D:&#x2F;tools&#x2F;jdk1.7_40&#x2F;bin&#x2F;jstack -F %1 &gt; D:&#x2F;a.txt，即当程序OOM时，在D:&#x2F;a.txt中将会生成线程的dump。</p>
+<p>5、堆的分配参数总结：</p>
+<ul>
+<li>根据实际事情调整新生代和幸存代的大小</li>
+<li>官方推荐新生代占堆的1&#x2F;3</li>
+<li>幸存代占新生代的1&#x2F;10</li>
+<li>在OOM时，记得Dump出堆，确保可以排查现场问题</li>
+</ul>
+<p>6、永久区分配参数：<br>-XX:PermSize  -XX:MaxPermSize<br>设置永久区的初始空间和最大空间。也就是说，jvm启动时，永久区一开始就占用了PermSize大小的空间，如果空间还不够，可以继续扩展，但是不能超过MaxPermSize，否则会OOM。</p>
+<p>举例：<br>我们知道，使用CGLIB等库的时候，可能会产生大量的类，这些类，有可能撑爆永久区导致OOM。于是，我们运行下面这段代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(int i=0;i&lt;100000;i++)&#123;</span><br><span class="line">　　CglibBean bean = new CglibBean(&quot;geym.jvm.ch3.perm.bean&quot;+i,new HashMap());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面这段代码会在永久区不断地产生新的类，导致OOM。<br>总结：<strong>如果堆空间没有用完也抛出了OOM，有可能是永久区导致的。</strong>堆空间实际占用非常少，但是永久区溢出一样抛出OOM。</p>
+<h2 id="三、栈的分配参数："><a href="#三、栈的分配参数：" class="headerlink" title="三、栈的分配参数："></a>三、栈的分配参数：</h2><p>-Xss</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">设置栈空间的大小。通常只有几百K</span><br><span class="line">　　决定了函数调用的深度</span><br><span class="line">　　每个线程都有独立的栈空间</span><br><span class="line">　　局部变量、参数 分配在栈上</span><br></pre></td></tr></table></figure>
+
+<p>注：栈空间是每个线程私有的区域。栈里面的主要内容是栈帧，而栈帧存放的是局部变量表，局部变量表的内容是：局部变量、参数。</p>
+<p>如果-Xss设置的过小，函数调用的次数过多，如递归调用太深。可能会抛出StackOverflowError。<br>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xss128K </span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>, <a href="/tags/JVM%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0/">JVM配置参数</a>
+  </div>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-comments" data-href="https://jackhai9.github.io/2015/03/01/%E5%B8%B8%E7%94%A8JVM%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+      
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="as_sitesearch" value="jackhai9.github.io">
+  </form>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Hexo/">Hexo</a><small>1</small></li>
+  
+    <li><a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><small>2</small></li>
+  
+    <li><a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a><small>19</small></li>
+  
+    <li><a href="/categories/%E6%8A%98%E8%85%BE/">折腾</a><small>1</small></li>
+  
+    <li><a href="/categories/%E8%BD%AC%E8%BD%BD/">转载</a><small>2</small></li>
+  
+    <li><a href="/categories/%E9%9A%8F%E8%AE%B0/">随记</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/ActiveMQ/">ActiveMQ</a><small>1</small></li>
+  
+    <li><a href="/tags/ClassLoader/">ClassLoader</a><small>1</small></li>
+  
+    <li><a href="/tags/ContentProvider/">ContentProvider</a><small>1</small></li>
+  
+    <li><a href="/tags/Dubbo/">Dubbo</a><small>1</small></li>
+  
+    <li><a href="/tags/ESB/">ESB</a><small>1</small></li>
+  
+    <li><a href="/tags/Error/">Error</a><small>1</small></li>
+  
+    <li><a href="/tags/Exception/">Exception</a><small>1</small></li>
+  
+    <li><a href="/tags/Filter/">Filter</a><small>1</small></li>
+  
+    <li><a href="/tags/Gaea/">Gaea</a><small>1</small></li>
+  
+    <li><a href="/tags/Handler/">Handler</a><small>1</small></li>
+  
+    <li><a href="/tags/Hexo/">Hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/JVM%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0/">JVM配置参数</a><small>1</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>6</small></li>
+  
+    <li><a href="/tags/Jenkins/">Jenkins</a><small>1</small></li>
+  
+    <li><a href="/tags/ListView/">ListView</a><small>1</small></li>
+  
+    <li><a href="/tags/Looper/">Looper</a><small>1</small></li>
+  
+    <li><a href="/tags/MessageQueue/">MessageQueue</a><small>1</small></li>
+  
+    <li><a href="/tags/MyBatis/">MyBatis</a><small>1</small></li>
+  
+    <li><a href="/tags/ORM/">ORM</a><small>1</small></li>
+  
+    <li><a href="/tags/REST/">REST</a><small>1</small></li>
+  
+    <li><a href="/tags/SSD/">SSD</a><small>1</small></li>
+  
+    <li><a href="/tags/Servlet/">Servlet</a><small>1</small></li>
+  
+    <li><a href="/tags/SpingMVC/">SpingMVC</a><small>1</small></li>
+  
+    <li><a href="/tags/gc/">gc</a><small>1</small></li>
+  
+    <li><a href="/tags/nodejs/">nodejs</a><small>1</small></li>
+  
+    <li><a href="/tags/pdfjs/">pdfjs</a><small>1</small></li>
+  
+    <li><a href="/tags/%E4%BC%81%E4%B8%9A%E5%8F%B7/">企业号</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">内存模型</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/">分布式服务架构</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/">前后端分离</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%89%8D%E7%AB%AF/">前端</a><small>2</small></li>
+  
+    <li><a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a><small>1</small></li>
+  
+    <li><a href="/tags/%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF/">异步消息</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">性能调优</a><small>1</small></li>
+  
+    <li><a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/">版本控制工具</a><small>1</small></li>
+  
+    <li><a href="/tags/%E8%AE%A2%E9%98%85%E5%8F%B7/">订阅号</a><small>1</small></li>
+  
+    <li><a href="/tags/%E8%AF%BB%E4%B9%A6/">读书</a><small>1</small></li>
+  
+    <li><a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a><small>1</small></li>
+  
+    <li><a href="/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/">高可用</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2024 李振海
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script>
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
