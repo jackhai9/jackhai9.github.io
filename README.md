@@ -1,8 +1,41 @@
-# 此仓库只备份博客的Markdown文章
+# Hexo + GitHub Actions + GitHub Pages
+
+仓库名：`<你的 GitHub 用户名>.github.io`，我这里是jackhai9.github.io
+Markdown编辑器：推荐Typora
+
+整体流程：克隆仓库、本地写Markdown文件、本地Hexo编译并预览效果、提交Hexo源文件到GitHub的source分支、触发GitHub Actions自动执行并部署到GitHub Pages
+
+具体流程：
+
+1. 克隆仓库：
+   克隆当前仓库的source分支到本地：`git clone -b source --recurse-submodules git@github.com:jackhai9/jackhai9.github.io.git && cd jackhai9.github.io` 
+   -- 因为项目里包含子模块（主题使用了别人的git项目），所以使用--recurse-submodules选项，这将会自动初始化并更新仓库中的每个子模块
+
+2. 本地写Markdown文件：
+   在本地的 jackhai9.github.io/source/_posts 目录下创建并书写MD文件：手动创建 或者 使用`$ hexo new [layout] "MD文件名称"`命令由Hexo自动创建
+
+3. 本地Hexo编译并预览效果：
+   在本地安装Hexo（为了能在本地预览，建议安装）：`npm install -g hexo-cli`   
+   安装项目依赖：`npm install`  
+   编译并启动一个本地的web服务器：`hexo server` 【会进行编译，不需要每次都手动运行`hexo generate`了】
+
+4. 提交Hexo源文件到GitHub的source分支：
+   一旦完成了MD文章的编辑或者其他配置的修改，就可以将这些Hexo源文件推送到source分支：
+
+- git add .
+- git commit -m "添加或更新文章/修改xx配置等"
+- git push origin source
+
+5. 触发GitHub Actions自动执行并部署到GitHub Pages：
+   当你推送更改到source分支后，GitHub Actions会自动执行定义好的工作流程（见jackhai9.github.io\.github\workflows\hexo-deploy.yml），这通常包括：安装NodeJS、安装项目依赖、安装全局的Hexo CLI、使用Hexo命令进行编译生成静态网站文件、并将这些文件推送到用于GitHub Pages的分支（比如master或gh-pages）
+
+
+
 
 如何使用此仓库？
-如果没有在[本地搭建静态博客生成器](#本地搭建静态博客生成器)，则需要先搭建；
-如果已经在[本地搭建静态博客生成器](#本地搭建静态博客生成器)，则克隆本仓库到本地，
+
+- 如果没有在[本地搭建静态博客生成器](#本地搭建静态博客生成器)，则需要先搭建；
+- 如果已经在[本地搭建静态博客生成器](#本地搭建静态博客生成器)，则克隆本仓库到本地，
 
 搭建过程或许有那么点小繁琐（其实就几个简单命令），一旦搭建完成，写文章极简单、极舒服。怎么个舒服法？
 
@@ -14,6 +47,11 @@ $ hexo d  #部署，可与hexo g合并为hexo d -g
 点击[这里](https://jackhai9.github.io)查看最终生成的博客；
 
 然后再 push Markdown文章到此仓库做备份。
+
+当需要更换主题时：
+1. 以子模块的方式下载主题：`git submodule add git@github.com:hexojs/hexo-theme-light.git themes/light`
+2. 修改_config.yml中的theme: light
+3. `ga .` 然后`gc ''`然后 `git push origin source`
 
 ----------------------
 
