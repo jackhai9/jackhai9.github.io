@@ -1,31 +1,40 @@
 # Hexo + GitHub Actions + GitHub Pages
 
-仓库名：`<你的 GitHub 用户名>.github.io`，我这里是jackhai9.github.io
-Markdown编辑器：推荐Typora
+***对仓库名的要求：`<你的 GitHub 用户名>.github.io`，我这里是jackhai9.github.io***
+***Markdown编辑器：推荐Typora***
 
-整体流程：克隆仓库、本地写Markdown文件、本地Hexo编译并预览效果、提交Hexo源文件到GitHub的source分支、触发GitHub Actions自动执行并部署到GitHub Pages
+## 整体流程
+
+克隆仓库 -> 本地写Markdown文件 -> 本地Hexo编译并预览效果 -> 提交Hexo源文件到GitHub的source分支 -> 触发GitHub Actions自动执行并部署到GitHub Pages
 
 具体流程：
 
 1. 克隆仓库：
+   
    克隆当前仓库的source分支到本地：`git clone -b source --recurse-submodules git@github.com:jackhai9/jackhai9.github.io.git && cd jackhai9.github.io` 
-   -- 因为项目里包含子模块（主题使用了别人的git项目），所以使用--recurse-submodules选项，这将会自动初始化并更新仓库中的每个子模块
-   -- git clone -b 命令在大多数情况下应该自动设置跟踪分支。如果后续在 git pull 或者 git push 时提示 `There is no tracking information for the current branch.`，手动设置将当前分支与远程的source分支关联：git branch --set-upstream-to=origin/source source
-
+   
+   > 因为项目里包含子模块（主题使用了别人的git项目），所以使用`--recurse-submodules`选项，这将会自动初始化并更新仓库中的每个子模块
+   >
+   > `git clone -b <分支名称>` 命令在大多数情况下应该会自动设置跟踪分支。如果后续在`git pull`或`git push`时提示 `There is no tracking information for the current branch.`，则需要手动设置将当前分支与远程的source分支关联：git branch --set-upstream-to=origin/source source
+   
 3. 本地写Markdown文件：
-   在本地的 jackhai9.github.io/source/_posts 目录下创建并书写MD文件：手动创建 或者 使用`$ hexo new [layout] "MD文件名称"`命令由Hexo自动创建
-
+   
+   - 在本地的 jackhai9.github.io/source/_posts 目录下创建并书写MD文件：手动创建 或者 使用`$ hexo new [layout] "MD文件名称"`命令由Hexo自动创建
+   
 4. 本地Hexo编译并预览效果：
-   在本地安装Hexo（为了能在本地预览，建议安装）：`npm install -g hexo-cli`   
-   安装项目依赖：`npm install`  
-   编译并启动一个本地的web服务器：`hexo server` 【会进行编译，不需要每次都手动运行`hexo generate`了】
+   - 在本地安装Hexo（为了能在本地预览，建议安装）：`npm install -g hexo-cli`   
+   - 安装项目依赖：`npm install`  
+   - 编译并启动一个本地的web服务器：`hexo server` 【会进行编译，不需要每次都手动运行`hexo generate`了】
 
 5. 提交Hexo源文件到GitHub的source分支：
    一旦完成了MD文章的编辑或者其他配置的修改，就可以将这些Hexo源文件推送到source分支：
-
-- git add .
-- git commit -m "添加或更新文章/修改xx配置等"
-- git push
+   
+   - git add .
+   
+   - git commit -m "添加或更新文章/修改xx配置等"
+   
+   - git push
+   
 
 5. 触发GitHub Actions自动执行并部署到GitHub Pages：
    当你推送更改到source分支后，GitHub Actions会自动执行定义好的工作流程（见jackhai9.github.io\.github\workflows\hexo-deploy.yml），这通常包括：安装NodeJS、安装项目依赖、安装全局的Hexo CLI、使用Hexo命令进行编译生成静态网站文件、并将这些文件推送到用于GitHub Pages的分支（比如master或gh-pages）
