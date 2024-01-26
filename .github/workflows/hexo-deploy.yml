@@ -12,6 +12,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: source
+        submodules: true  # 如果你的仓库使用子模块
     - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
