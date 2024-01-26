@@ -23,6 +23,8 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
       run: npm install
+    - name: Install Hexo CLI
+      run: npm install -g hexo-cli
     - name: Generate static files
       run: hexo generate
     - name: Deploy
