@@ -23,7 +23,7 @@
 </style>
 </head>
 <body>
-<audio autoplay="autopaly">
+<audio id="myAudio">
   <source src="love.mp3" type="audio/mp3">
 </audio>
 <div id="main">
@@ -117,6 +117,7 @@
         var hold = 1;
 
         canvas.click(function (e) {
+            document.getElementById('myAudio').play();
             var offset = canvas.offset(), x, y;
             x = e.pageX - offset.left;
             y = e.pageY - offset.top;
