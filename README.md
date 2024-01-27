@@ -1,6 +1,6 @@
 # Hexo + GitHub Actions + GitHub Pages
 
-***对仓库名的要求：`<你的 GitHub 用户名>.github.io`，我这里是jackhai9.github.io***
+***仓库名的格式要求：`<你的GitHub用户名>.github.io`，我这里是jackhai9.github.io***
 
 ***Markdown编辑器：推荐Typora***
 
