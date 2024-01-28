@@ -39,7 +39,7 @@
 
    - 在本地安装Hexo（为了能在本地预览，建议安装）：`npm install -g hexo-cli`
    - 安装项目依赖：`npm install`
-   - 编译并启动一个本地的web服务器：`hexo server` 【会进行编译，不需要每次都手动运行 `hexo generate`了】
+   - 启动一个本地的web服务器并预览效果：`hexo server` 【会进行编译，不需要每次都手动运行 `hexo generate`进行编译了】
 
 4. 提交Hexo源文件到GitHub的source分支：
 
