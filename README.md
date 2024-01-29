@@ -66,7 +66,7 @@
    
    > actions-gh-pages会创建workflow“pages-build-deployment”，会被GitHub Actions执行，最终把静态文件部署到GitHub Pages
    
-   > 两个workflow的执行都有完整日志，见https://github.com/jackhai9/jackhai9.github.io/actions
+   > 两个workflow都有完整的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions)
    >
    > - 第1个是我们自定义的workflow的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions/workflows/hexo-deploy.yml)
    >
