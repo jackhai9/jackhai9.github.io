@@ -67,8 +67,10 @@
    > actions-gh-pages会创建workflow“pages-build-deployment”，会被GitHub Actions执行，最终把静态文件部署到GitHub Pages
    
    > 两个workflow的执行都有完整日志，见https://github.com/jackhai9/jackhai9.github.io/actions
-   > 第1个是我们自定义的workflow的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions/workflows/hexo-deploy.yml)
-   > 第2个是actions-gh-pages创建的workflow的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions/workflows/pages/pages-build-deployment)
+   >
+   > - 第1个是我们自定义的workflow的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions/workflows/hexo-deploy.yml)
+   >
+   > - 第2个是actions-gh-pages创建的workflow的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions/workflows/pages/pages-build-deployment)
 
 ## 其他
 
@@ -99,7 +101,7 @@
      1. cd到子模块目录(比如themes/light目录)，提交修改到子模块的远程仓库；
      2. 再cd回主项目目录(比如jackhai9.github.io目录)，再提交修改到主项目的远程仓库；
   
-- 通过SSH与GitHub进行免密交互，无需在每次访问时都提供用户名和密码：
+- 通过SSH与GitHub进行免密交互，无需每次访问都使用用户名和密码，设置方式：
   
   [检查本地现有的SSH密钥](https://docs.github.com/zh/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys)、[生成本地新的SSH密钥](https://docs.github.com/zh/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)、[添加本地SSH密钥到GitHub账户](https://docs.github.com/zh/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)。
 
