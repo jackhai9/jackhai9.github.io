@@ -2,16 +2,16 @@
 
 ## 项目说明
 
+- **[这里](https://jackhai9.github.io)就是通过此方式创建的博客。**
 - 仓库名的格式要求：`<你的GitHub用户名>.github.io`，我这里是jackhai9.github.io，就会自动开启这个仓库的 Github Pages 功能。
 - 有两个分支：source分支（存放编译前的源码文件）、master分支（存放编译后的静态文件）。
 - 当然，你如果想用其他仓库名或者分支，也可以。相信你可以自己解决😉
-- **[这里](https://jackhai9.github.io)就是通过此方式创建的博客。**
 
 ## 整体流程
 
 1. 手动 -- 克隆仓库
-2. 手动 -- 本地安装Hexo并编译/预览效果
-2. 手动 -- 本地写Markdown文件并编译/预览效果
+2. 手动 -- 本地安装Hexo
+2. 手动 -- 本地写Markdown文件并编译和预览
 4. 手动 -- 提交Hexo源文件到GitHub的source分支
 5. 自动 -- 触发GitHub Actions执行[自定义的workflow](https://github.com/jackhai9/jackhai9.github.io/blob/source/.github/workflows/hexo-deploy.yml)最终部署到GitHub Pages
 
@@ -28,28 +28,32 @@
 
    克隆当前仓库的source分支到本地：`git clone -b source --recurse-submodules git@github.com:jackhai9/jackhai9.github.io.git && cd jackhai9.github.io`
 
-   > 这个项目会依赖其他的git项目（我没有使用默认的主题，而是使用了别的主题），我又是[以子模块的方式来引入的其他主题](#Hexo的默认主题是hexo-theme-landscape，当需要更换博客主题时（以我更换为light主题为例）：)，所以需要使用 `--recurse-submodules`选项，将初始化并更新仓库中的每个子模块。
+   > 这个项目会依赖其他的git项目（也就是其他主题，我没有使用Hexo默认的主题），而且我是[以子模块的方式来引入的其他主题]()，所以需要使用 `--recurse-submodules`选项，此选项会初始化并更新仓库中的每个子模块。
 
-   > 如果没有以子模块的方式来引入其他git项目，比如以普通子目录的方式来引入的，直接git clone就可以了。至于这两种方式的区别看[这里]()
+   > 如果没有以子模块的方式来引入其他git项目，比如是以普通子目录的方式来引入的，则不需要`--recurse-submodules`选项。至于这两种方式的区别看[这里]()
 
-   > `git clone -b <分支名称>` 命令在大多数情况下应该会自动设置跟踪分支。如果后续在 `git pull`或 `git push`时提示 `There is no tracking information for the current branch.`，则需要手动将本地的 source 分支与远程的 source 分支关联：git branch --set-upstream-to=origin/source source
+   > `git clone -b <分支名称>` 命令在大多数情况下应该会自动设置跟踪分支。如果后续在 `git pull`或 `git push`时提示 `There is no tracking information for the current branch.`，则需要手动将本地的 source 分支与远程的 source 分支关联：`git branch --set-upstream-to=origin/source source`
 
-2. 本地安装Hexo并编译/预览效果
+2. 本地安装Hexo
 
-   1. 在本地安装Hexo（为了能在本地预览，建议安装）：`npm install -g hexo-cli`
+   1. 在本地安装Hexo（基于这个[原因]()，还是建议在本地安装Hexo）：`npm install -g hexo-cli`
+
    2. 安装项目依赖：`npm install`
-   3. 启动一个本地的web服务器并预览效果：`hexo server` 【会进行编译，不需要每次都手动运行 `hexo generate`进行编译了】
 
-4. 本地写Markdown文件并编译/预览效果
+   3. 启动一个本地的web服务器：`hexo server` ，并能在浏览器访问localhost:4000，说明安装成功
 
-   1. 在本地的 jackhai9.github.io/source/_posts 目录下创建并书写MD文件：手动创建 或者 使用 `$ hexo new [layout] "MD文件名称"`命令由Hexo自动创建
-   2. 启动web服务器并预览效果：`hexo server`，然后访问localhost:4000预览效果
+      > `hexo server`会进行编译，不需要每次都手动运行 `hexo generate`进行编译
+
+4. 本地写Markdown文件并编译和预览
+
+   1. 在当前项目的 source/_posts 目录下创建Markdown文件：手动去创建 或者 使用 `$ hexo new [layout] "MD文件名称"`命令由Hexo自动创建，然后愉快的编写Markdown文件吧
+   2. 再次启动web服务器：`hexo server`，在浏览器访问localhost:4000预览博客效果吧
    
 4. 提交Hexo源文件到GitHub的source分支
 
-   一旦完成了MD文章的编辑或者其他配置的修改，并本地预览没问题后，就可以将这些修改推送到source分支：
+   一旦完成了Markdown文章的编写或者其他配置的修改，并本地预览没问题后，就可以将这些修改推送到source分支：
 
-   > 注意配置 .gitignore，把 node_modules/、public/ 等排除
+   > 注意配置 .gitignore，忽略 node_modules/、public/ 等
 
    ```bash
    git add .
@@ -59,7 +63,7 @@
 
 5. 触发GitHub Actions执行[自定义的workflow](https://github.com/jackhai9/jackhai9.github.io/blob/source/.github/workflows/hexo-deploy.yml)最终部署到GitHub Pages
 
-   当推送更改到source分支后，GitHub Actions会自动执行自定义的workflow（要求以YAML文件的形式放在 .github/workflows 下面），简单解释下自定义的workflow：
+   当推送更改到source分支后，因为已经在 .github/workflows/ 下面以YAML文件的形式自定义了workflow，GitHub Actions会自动执行这个workflow，简单解释下自定义的workflow在干啥：
 
    1. 切到source分支
    2. 安装依赖(NodeJS、项目依赖)、安装Hexo
@@ -74,7 +78,7 @@
    >
    > - 第2个是actions-gh-pages创建的workflow的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions/workflows/pages/pages-build-deployment)
 
-## 其他
+## 其他说明
 
 - **一旦上述的流程在本地执行过一次之后，后续写博客只需要执行3、4就可以了。**
 
@@ -87,7 +91,7 @@
 
   GitHub提供了选项来选择哪个分支用于GitHub Pages，这可以在仓库的设置中配置。这样你可以根据项目需求选择最适合的分支。
 
-- 为什么在本地安装Hexo仍然是个好主意？ 尽管GitHub Actions可以从“执行Hexo的安装”一直到“最终部署到GitHub Pages”，你不一定需要在本地安装Hexo，但本地安装Hexo仍然有几个好处：
+- 为什么在本地安装Hexo仍然是个好主意？ 尽管GitHub Actions可以从“执行Hexo的安装”一直到“最终部署到GitHub Pages”，不是必须在本地安装Hexo，但本地安装Hexo仍然有几个好处：
   
   1. 本地预览：本地安装Hexo允许你在提交和推送之前预览你的博客，确保一切看起来都像你期望的那样。
   2. 更快的迭代：在本地进行更改和预览可以加快写作和编辑的过程，因为你不需要等待CI/CD流程完成来看到更改。
@@ -99,7 +103,7 @@
   
   2. 我这里以子模块的方式添加到themes目录下：`git submodule add git@github.com:jackhai9/hexo-theme-light.git themes/light`
   
-     > 当然也可以以普通子目录的方式添加进来，直接git clone到themes目录下就可以了。至于这两种方式的区别看这里
+     > 当然也可以以普通子目录的方式添加进来，直接git clone到themes目录下就可以了。至于这两种方式的区别看[这里]()
   
   3. 修改_config.yml中的theme: light
   
