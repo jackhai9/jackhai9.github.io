@@ -28,7 +28,9 @@
 
    克隆当前仓库的source分支到本地：`git clone -b source --recurse-submodules git@github.com:jackhai9/jackhai9.github.io.git && cd jackhai9.github.io`
 
-   > 因为项目里包含子模块（其他的git项目），所以使用 `--recurse-submodules`选项，将初始化并更新仓库中的每个子模块
+   > 这个项目会依赖其他的git项目（我没有使用默认的主题，而是使用了别的主题），我又是[以子模块的方式来引入的其他主题](#Hexo的默认主题是hexo-theme-landscape，当需要更换博客主题时（以我更换为light主题为例）：)，所以需要使用 `--recurse-submodules`选项，将初始化并更新仓库中的每个子模块。
+
+   > 如果没有以子模块的方式来引入其他git项目，比如以普通子目录的方式来引入的，直接git clone就可以了。至于这两种方式的区别看[这里]()
 
    > `git clone -b <分支名称>` 命令在大多数情况下应该会自动设置跟踪分支。如果后续在 `git pull`或 `git push`时提示 `There is no tracking information for the current branch.`，则需要手动将本地的 source 分支与远程的 source 分支关联：git branch --set-upstream-to=origin/source source
 
@@ -91,12 +93,18 @@
   2. 更快的迭代：在本地进行更改和预览可以加快写作和编辑的过程，因为你不需要等待CI/CD流程完成来看到更改。
   3. 故障排除：如果出现构建错误或其他问题，本地安装可以帮助你更快地诊断和解决这些问题，否则需要等到发布时或发布后才知道有问题。
   
-- 当需要更换博客主题时：
+- Hexo的默认主题是hexo-theme-landscape，当需要更换博客主题时（以我更换为light主题为例）：
   
-  1. 在GitHub上找到相应的Hexo主题后，建议fork到自己仓库，便于进行定制化修改，比如我所用的[主题](https://github.com/jackhai9/hexo-theme-light)；
-  2. 以子模块的方式添加到themes目录下：`git submodule add git@github.com:jackhai9/hexo-theme-light.git themes/light`
+  1. 在GitHub上找到喜欢的Hexo主题后，建议fork到自己仓库，便于进行定制化修改，比如我所用的[主题](https://github.com/jackhai9/hexo-theme-light)；
+  
+  2. 我这里以子模块的方式添加到themes目录下：`git submodule add git@github.com:jackhai9/hexo-theme-light.git themes/light`
+  
+     > 当然也可以以普通子目录的方式添加进来，直接git clone到themes目录下就可以了。至于这两种方式的区别看这里
+  
   3. 修改_config.yml中的theme: light
+  
   4. 提交修改：`git add .` 然后 `git commit -m "新增主题xxx"`然后 `git push`
+  
   5. 如果你对子模块进行了定制化修改，则需要
      1. cd到子模块目录(比如themes/light目录)，提交修改到子模块的远程仓库；
      2. 再cd回主项目目录(比如jackhai9.github.io目录)，再提交修改到主项目的远程仓库；
