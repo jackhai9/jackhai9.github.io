@@ -13,7 +13,7 @@
 2. 手动 -- [本地安装Hexo](#本地安装Hexo)
 2. 手动 -- [本地写Markdown文件并编译和预览](#本地写Markdown文件并编译和预览)
 4. 手动 -- [提交Hexo源文件到GitHub的source分支](#提交Hexo源文件到GitHub的source分支)
-5. 自动 -- [触发GitHub Actions执行自定义的workflow最终部署到GitHub Pages](#触发GitHub Actions执行自定义的workflow最终部署到GitHub Pages)
+5. 自动 -- [触发GitHub Actions执行自定义的workflow最终部署到GitHub Pages](##触发github-actions执行自定义的workflow最终部署到github-pages)
 
 ## 概念说明
 
@@ -102,7 +102,7 @@
 #### 依赖管理：Git项目中引入其他Git项目的方式
 
 1. **子模块（Submodules）:** 将一个Git仓库作为另一个Git仓库的子模块。这是管理复杂项目的一种流行方式。
-   - **适用场景：**子模块适合于需要维持高度独立的多项目环境。
+   - **适用场景：** 子模块适合于需要维持高度独立的多项目环境。
    - **优点：** 主项目实际上并不直接包含子模块的代码文件，它包含了对子模块特定提交的**引用**（通常是一个指向该提交的Git哈希值）和一个子模块的URL。
    - **缺点：** 管理起来较为复杂，需要使用特定的Git命令来同步和更新子模块。
 2. **子树（Subtrees）:** Git子树与子模块类似，但它提供了一种更简单的方式来合并和管理外部项目。子树允许你将另一个项目作为子目录包含在你的Git仓库中，但不需要为外部项目维护一个单独的仓库引用。
