@@ -37,7 +37,7 @@
 
 2. #### 本地安装Hexo
 
-   1. 在本地安装Hexo（基于这个[原因](#为什么在本地安装Hexo仍然是个好主意？)，还是建议在本地安装Hexo）：`npm install -g hexo-cli`
+   1. 在本地安装Hexo（基于这个[原因](#为什么在本地安装Hexo仍然是个好主意)，还是建议在本地安装Hexo）：`npm install -g hexo-cli`
 
    2. 安装项目依赖：`npm install`
 
@@ -91,7 +91,7 @@
 
 [检查本地现有的SSH密钥](https://docs.github.com/zh/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys)、[生成本地新的SSH密钥](https://docs.github.com/zh/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)、[添加本地SSH密钥到GitHub账户](https://docs.github.com/zh/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)。
 
-#### 为什么在本地安装Hexo仍然是个好主意？
+#### 为什么在本地安装Hexo仍然是个好主意
 
 尽管GitHub Actions可以从“执行Hexo的安装”一直到“最终部署到GitHub Pages”，不是必须在本地安装Hexo，但本地安装Hexo仍然有几个好处：
 
