@@ -13,7 +13,7 @@
 2. 手动 -- [本地安装Hexo](#本地安装Hexo)
 2. 手动 -- [本地写Markdown文件并编译和预览](#本地写Markdown文件并编译和预览)
 4. 手动 -- [提交Hexo源文件到GitHub的source分支](#提交Hexo源文件到GitHub的source分支)
-5. 自动 -- [触发GitHub Actions执行自定义的workflow最终部署到GitHub Pages](#触发GitHub Actions执行自定义的workflow最终部署到GitHub Pages)
+5. 自动 -- [触发GitHub Actions执行自定义的workflow最终部署到GitHub Pages](#触发github-actions执行自定义的workflow最终部署到github-pages)
 
 ## 概念说明
 
