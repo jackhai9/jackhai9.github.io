@@ -13,7 +13,7 @@
 2. 手动 -- [本地安装Hexo](#本地安装Hexo)
 2. 手动 -- [本地写Markdown文件并编译和预览](#本地写Markdown文件并编译和预览)
 4. 手动 -- [提交Hexo源文件到GitHub的source分支](#提交Hexo源文件到GitHub的source分支)
-5. 自动 -- [触发GitHub Actions执行自定义的workflow最终部署到GitHub Pages](#触发GitHub Actions执行[自定义的workflow](https://github.com/jackhai9/jackhai9.github.io/blob/source/.github/workflows/hexo-deploy.yml)最终部署到GitHub Pages)
+5. 自动 -- [触发GitHub Actions执行自定义的workflow最终部署到GitHub Pages](#触发GitHub Actions执行自定义的workflow最终部署到GitHub Pages)
 
 ## 概念说明
 
@@ -25,7 +25,7 @@
 
 ## 具体流程
 
-1. ##### 克隆仓库
+1. #### 克隆仓库
 
    克隆当前仓库的source分支到本地：`git clone -b source --recurse-submodules git@github.com:jackhai9/jackhai9.github.io.git && cd jackhai9.github.io`
 
@@ -35,7 +35,7 @@
 
    > `git clone -b <分支名称>` 命令在大多数情况下应该会自动设置跟踪分支。如果后续在 `git pull`或 `git push`时提示 `There is no tracking information for the current branch.`，则需要手动将本地的 source 分支与远程的 source 分支关联：`git branch --set-upstream-to=origin/source source`
 
-2. ##### 本地安装Hexo
+2. #### 本地安装Hexo
 
    1. 在本地安装Hexo（基于这个[原因](#为什么在本地安装Hexo仍然是个好主意？)，还是建议在本地安装Hexo）：`npm install -g hexo-cli`
 
@@ -45,12 +45,12 @@
 
       > `hexo server`会进行编译，不需要每次都手动运行 `hexo generate`进行编译
 
-4. ##### 本地写Markdown文件并编译和预览
+4. #### 本地写Markdown文件并编译和预览
 
    1. 在当前项目的 source/_posts 目录下创建Markdown文件：手动去创建 或者 使用 `$ hexo new [layout] "MD文件名称"`命令由Hexo自动创建，然后愉快的编写Markdown文件吧
    2. 再次启动web服务器：`hexo server`，在浏览器访问localhost:4000预览博客效果吧
    
-4. ##### 提交Hexo源文件到GitHub的source分支
+4. #### 提交Hexo源文件到GitHub的source分支
 
    一旦完成了Markdown文章的编写或者其他配置的修改，并本地预览没问题后，就可以将这些修改推送到source分支：
 
@@ -62,9 +62,9 @@
    git push
    ```
 
-5. ##### 触发GitHub Actions执行[自定义的workflow](https://github.com/jackhai9/jackhai9.github.io/blob/source/.github/workflows/hexo-deploy.yml)最终部署到GitHub Pages
+5. #### 触发GitHub Actions执行自定义的workflow最终部署到GitHub Pages
 
-   当推送更改到source分支后，因为已经在 .github/workflows/ 下面以YAML文件的形式自定义了workflow，GitHub Actions会自动执行这个workflow，简单解释下自定义的workflow在干啥：
+   当推送更改到source分支后，因为已经在 .github/workflows/ 下面以YAML文件的形式自定义了[workflow]((https://github.com/jackhai9/jackhai9.github.io/blob/source/.github/workflows/hexo-deploy.yml))，GitHub Actions会自动执行这个workflow，简单解释下自定义的workflow在干啥：
 
    1. 切到source分支
    2. 安装依赖(NodeJS、项目依赖)、安装Hexo
@@ -85,13 +85,13 @@
 
 - Markdown编辑器：推荐Typora。
 
-##### 配置SSH
+#### 配置SSH
 
 通过SSH与GitHub进行免密交互，无需每次访问都使用用户名和密码，设置方式：
 
 [检查本地现有的SSH密钥](https://docs.github.com/zh/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys)、[生成本地新的SSH密钥](https://docs.github.com/zh/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)、[添加本地SSH密钥到GitHub账户](https://docs.github.com/zh/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)。
 
-##### 为什么在本地安装Hexo仍然是个好主意？
+#### 为什么在本地安装Hexo仍然是个好主意？
 
 尽管GitHub Actions可以从“执行Hexo的安装”一直到“最终部署到GitHub Pages”，不是必须在本地安装Hexo，但本地安装Hexo仍然有几个好处：
 
@@ -99,7 +99,7 @@
 2. 更快的迭代：在本地进行更改和预览可以加快写作和编辑的过程，因为你不需要等待CI/CD流程完成来看到更改。
 3. 故障排除：如果出现构建错误或其他问题，本地安装可以帮助你更快地诊断和解决这些问题，否则需要等到发布时或发布后才知道有问题。
 
-##### 依赖管理：Git项目中引入其他Git项目的方式
+#### 依赖管理：Git项目中引入其他Git项目的方式
 
 1. **子模块（Submodules）:** 将一个Git仓库作为另一个Git仓库的子模块。这是管理复杂项目的一种流行方式。
    - **适用场景：**子模块适合于需要维持高度独立的多项目环境。
@@ -124,13 +124,13 @@
 
 选择哪种方法取决于你的特定需求，例如项目大小、依赖项的复杂性、更新频率以及你希望如何管理这些依赖项。通常，子模块和子树是管理大型、复杂项目依赖的常用选择。而对于依赖特定语言的库，使用包管理器通常是更方便的方法。
 
-##### 更换博客主题
+#### 更换博客主题
 
 Hexo的默认主题是hexo-theme-landscape，当需要更换博客主题时（以我更换为light主题为例）：
 
 1. 在GitHub上找到喜欢的Hexo主题后，建议fork到自己仓库，便于进行定制化修改，比如我所用的[主题](https://github.com/jackhai9/hexo-theme-light)；
 
-2. ###### 以子模块的方式添加到themes目录下
+2. ##### 以子模块的方式添加到themes目录下
 
    `git submodule add git@github.com:jackhai9/hexo-theme-light.git themes/light`
 
@@ -144,7 +144,7 @@ Hexo的默认主题是hexo-theme-landscape，当需要更换博客主题时（�
    1. cd到子模块目录(比如themes/light目录)，提交修改到子模块的远程仓库；
    2. 再cd回主项目目录(比如jackhai9.github.io目录)，再提交修改到主项目的远程仓库；
 
-##### 更换仓库或分支
+#### 更换仓库或分支
 
 对于GitHub Pages，有两种常见的分支选项来发布你的网站：
 
