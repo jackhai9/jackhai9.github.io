@@ -17,7 +17,7 @@
 
 ## 概念说明
 
-- [Markdown](https://daringfireball.net/projects/markdown/)：一种易写易读的标记语言，可通过解析器转为 XHTML (or HTML)。语法因不同的解析器或编辑器而异。
+- [Markdown](https://daringfireball.net/projects/markdown/)：一种易写易读的标记语言，通过解析器转为 XHTML (or HTML)。语法因不同的解析器或编辑器而异。
 - [Hexo](https://github.com/hexojs/hexo) ：静态站点生成器，依赖 [Node.js](https://nodejs.cn/)。快速、简洁且高效的博客框架，很适合用来搭建博客。
 - [GitHub Actions](https://docs.github.com/en/actions)：GitHub 提供的一种自动化工具，会去执行你创建的 workflow。
 - [workflow](https://docs.github.com/en/actions/using-workflows/about-workflows)：工作流，即 按希望的顺序排列组合一系列指令（action）。这些指令可以是各种任务，如安装依赖、测试代码、部署应用等。
