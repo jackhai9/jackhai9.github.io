@@ -67,17 +67,20 @@
    当推送更改到source分支后，因为已经在 .github/workflows/ 下面以YAML文件的形式自定义了[workflow]((https://github.com/jackhai9/jackhai9.github.io/blob/source/.github/workflows/hexo-deploy.yml))，GitHub Actions会自动执行这个workflow，简单解释下自定义的workflow在干啥：
 
    1. 切到source分支
+   
    2. 安装依赖(NodeJS、项目依赖)、安装Hexo
+   
    3. 运行Hexo的编译指令把当前source分支的源码编译成静态文件输出到public目录
+   
    4. 运行[actions-gh-pages](https://github.com/peaceiris/actions-gh-pages)把public目录中的静态文件提交到master分支并部署到 GitHub Pages
    
-   > actions-gh-pages会创建workflow“pages-build-deployment”，会被GitHub Actions执行，最终把静态文件部署到GitHub Pages
+      > actions-gh-pages会创建workflow“pages-build-deployment”，会被GitHub Actions执行，最终把静态文件部署到GitHub Pages
    
-   > 两个workflow都有完整的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions)
-   >
-   > - 第1个是我们自定义的workflow的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions/workflows/hexo-deploy.yml)
-   >
-   > - 第2个是actions-gh-pages创建的workflow的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions/workflows/pages/pages-build-deployment)
+      >两个workflow都有完整的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions)
+      >
+      >- 第1个是我们自定义的workflow的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions/workflows/hexo-deploy.yml)
+      >- 第2个是actions-gh-pages创建的workflow的[执行日志](https://github.com/jackhai9/jackhai9.github.io/actions/workflows/pages/pages-build-deployment)
+   
 
 ## 其他说明
 
