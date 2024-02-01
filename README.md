@@ -52,7 +52,7 @@
    
 4. #### 提交Hexo源文件到GitHub的source分支
 
-   一旦完成了Markdown文章的编写或者其他配置的修改，并本地预览没问题后，就可以将这些修改推送到source分支：
+   一旦完成了Markdown文章的编写或者其他配置的修改，并本地预览没问题，就可以将这些修改推送到source分支：
 
    > 注意配置 .gitignore，忽略 node_modules/、public/ 等
 
@@ -153,7 +153,7 @@ Hexo的默认主题是hexo-theme-landscape，当需要更换博客主题时（�
   - **`master`或`main`分支**：对于用户或组织的 GitHub Pages 网站（如`<你的GitHub用户名>.github.io`），通常直接使用`master`或`main`分支来发布。
   - **`gh-pages`分支**：对于项目仓库，你可以使用特别的`gh-pages`分支来托管 GitHub Pages 内容。
 
-  GitHub提供了选项来选择哪个分支用于GitHub Pages，这可以在仓库的设置中配置。你可以根据项目需求选择最适合的分支。
+  GitHub提供了选项来选择哪个分支用于GitHub Pages，在仓库的设置中配置，根据项目需求选择最适合的分支。
 
 
 
