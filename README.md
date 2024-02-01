@@ -29,11 +29,11 @@
 
    克隆当前仓库的source分支到本地：`git clone -b source --recurse-submodules git@github.com:jackhai9/jackhai9.github.io.git && cd jackhai9.github.io`
 
-   > 这个项目会依赖其他的git项目（也就是其他主题，我[没有使用Hexo默认的主题](#更换博客主题)），而且我是[以子模块的方式来引入的其他主题](#以子模块的方式添加到themes目录下)，所以需要使用 `--recurse-submodules`选项，此选项会初始化并更新仓库中的每个子模块。
+   > 这个项目会依赖其他的git项目（依赖其他主题，我[没有使用Hexo默认的主题](#更换博客主题)），而且我是[以子模块的方式来引入的其他主题](#以子模块的方式添加到themes目录下)，所以需要使用 `--recurse-submodules`选项，此选项会初始化并更新仓库中的每个子模块。
 
    > 如果没有以子模块的方式来引入，比如是以“作为依赖库直接复制代码”的方式引入的，则不需要`--recurse-submodules`选项。更多依赖管理的方式看[这里](#依赖管理)
 
-   > `git clone -b <分支名称>` 命令在大多数情况下应该会自动设置跟踪分支。如果后续在 `git pull`或 `git push`时提示 `There is no tracking information for the current branch.`，则需要手动将本地的 source 分支与远程的 source 分支关联：`git branch --set-upstream-to=origin/source source`
+   > `git clone -b <分支名称>` 命令在大多数情况下应该会自动设置跟踪分支。如果后续在 git pull 或 git push 时提示 `There is no tracking information for the current branch.`，则需要手动将本地的 source 分支与远程的 source 分支关联：`git branch --set-upstream-to=origin/source source`
 
 2. #### 本地安装Hexo
 
@@ -41,7 +41,7 @@
 
    2. 安装项目依赖：`npm install`
 
-   3. 启动一个本地的web服务器：`hexo server` ，并能在浏览器访问localhost:4000，说明安装成功
+   3. 启动一个本地的web服务器：`hexo server` ，并能在浏览器访问 localhost:4000，说明安装成功
 
       > `hexo server`会进行编译，不需要每次都手动运行 `hexo generate`进行编译
 
@@ -52,7 +52,7 @@
    
 4. #### 提交Hexo源文件到GitHub的source分支
 
-   一旦完成了Markdown文章的编写或者其他配置的修改，并本地预览没问题，就可以将这些修改推送到source分支：
+   一旦完成了Markdown文章的编写或其他配置的修改，并本地预览没问题，就可以将这些修改推送到source分支：
 
    > 注意配置 .gitignore，忽略 node_modules/、public/ 等
 
@@ -124,7 +124,7 @@ Git项目中引入其他Git项目的方式：
    - **优点：** 可以直接使用Git仓库的最新代码。
    - **缺点：** 更新和版本控制可能不如包管理器那样方便。
 
-选择哪种方法取决于你的特定需求，例如项目大小、依赖项的复杂性、更新频率以及你希望如何管理这些依赖项。通常，子模块和子树是管理大型、复杂项目依赖的常用选择。而对于依赖特定语言的库，使用包管理器通常是更方便的方法。
+选择哪种方法取决于特定需求，例如项目大小、依赖项的复杂性、更新频率以及你希望如何管理这些依赖项。通常，子模块和子树是管理大型、复杂项目依赖的常用选择。而对于依赖特定语言的库，使用包管理器通常是更方便的方法。
 
 #### 更换博客主题
 
@@ -136,15 +136,15 @@ Hexo的默认主题是hexo-theme-landscape，当需要更换博客主题时（�
 
    `git submodule add git@github.com:jackhai9/hexo-theme-light.git themes/light`
 
-   > 当然也可以以子树的方式 或着 作为依赖库直接复制代码（直接git clone到themes目录下并删除.git目录）。更多依赖管理的方式看[这里](#依赖管理)
+   > 当然也可以以子树的方式 或者 作为依赖库直接复制代码（直接git clone到themes目录下并删除.git目录）。更多依赖管理的方式看[这里](#依赖管理)
 
 3. 修改_config.yml中的theme: light
 
 4. 提交修改：`git add .` 然后 `git commit -m "新增主题xxx"`然后 `git push`
 
 5. 如果你对子模块进行了定制化修改，则需要
-   1. cd到子模块目录(比如themes/light目录)，提交修改到子模块的远程仓库；
-   2. 再cd回主项目目录(比如jackhai9.github.io目录)，再提交修改到主项目的远程仓库；
+   1. cd到子模块目录（比如themes/light目录），提交修改到子模块的远程仓库；
+   2. 再cd回主项目目录（比如jackhai9.github.io目录），再提交修改到主项目的远程仓库；
 
 #### 更换仓库或分支
 
