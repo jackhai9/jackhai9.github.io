@@ -21,7 +21,7 @@
 - [Hexo](https://github.com/hexojs/hexo) ：静态站点生成器，依赖 [Node.js](https://nodejs.cn/)。快速、简洁且高效的博客框架，很适合用来搭建博客。
 - [GitHub Actions](https://docs.github.com/en/actions)：GitHub 提供的一种自动化工具，会去执行你创建的 workflow。
 - [workflow](https://docs.github.com/en/actions/using-workflows/about-workflows)：工作流，即 按希望的顺序排列组合一系列指令（action）。这些指令可以是各种任务，如安装依赖、测试代码、部署应用等。
-- [GitHub Pages](https://pages.github.com/)：GitHub 提供的一项服务，它允许你从 GitHub 仓库直接托管静态网站。常用于个人、项目或组织的网站，并且是免费的，不用再单独去申请域名了，当然也支持指向你已申请的域名。很适合用来托管博客、项目文档、个人简历等内容。GitHub Pages 也默认使用 [Jekyll](https://github.com/jekyll/jekyll) 这样的静态站点生成器，直接把 Markdown 文件转成 HTML，见[我的另一个博客](https://github.com/jackhai9/blog)。总之，GitHub Pages为用户提供了一种简单便捷的方式，用于将代码和文档以网页的形式分享给他人。
+- [GitHub Pages](https://pages.github.com/)：GitHub 提供的一项服务，从 GitHub 仓库直接托管静态网站。常用于个人、项目或组织的网站，并且是免费的，不用再单独去申请域名，当然也支持指向你已申请的域名。很适合用来托管博客、项目文档、个人简历等。GitHub Pages 也默认使用 [Jekyll](https://github.com/jekyll/jekyll) 这样的静态站点生成器，直接把 Markdown 转成 HTML，见[我的另一个博客](https://github.com/jackhai9/blog)。总之，GitHub Pages为用户提供了一种简单便捷的方式，用于将代码和文档以网页的形式分享给他人。
 
 ## 具体流程
 
