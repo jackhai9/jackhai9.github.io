@@ -158,5 +158,7 @@ Hexo的默认主题是hexo-theme-landscape，当需要更换博客主题时（�
 
   GitHub提供了选项来选择哪个分支用于GitHub Pages，在仓库的设置中配置，根据项目需求选择最适合的分支。
 
+#### 添加favicon
 
+把favicon.png（或者favicon.ico，取决于主题代码里用的是什么后缀）放到主题source目录下：`themes/主题/source`目录下。
 
