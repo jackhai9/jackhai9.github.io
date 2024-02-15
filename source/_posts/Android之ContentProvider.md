@@ -45,10 +45,10 @@ UriMatcher：用于匹配Uri，它的用法如下：
        1.首先把你需要匹配Uri路径全部给注册上，如下：
        //常量UriMatcher.NO_MATCH表示不匹配任何路径的返回码(-1)。
        UriMatcher  uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-
+    
        //如果match()方法匹配content://com.changcheng.sqlite.provider.contactprovider/contact路径，返回匹配码为1
        uriMatcher.addURI(“com.changcheng.sqlite.provider.contactprovider”, “contact”, 1);//添加需要匹配uri，如果匹配就会返回匹配码
-
+    
        //如果match()方法匹配content://com.changcheng.sqlite.provider.contactprovider/contact/230路径，返回匹配码为2
        uriMatcher.addURI(“com.changcheng.sqlite.provider.contactprovider”, “contact/#”, 2);//#号为通配符
       
@@ -72,7 +72,6 @@ ContentResolver：当外部应用需要对ContentProvider中的数据进行添�
 3、![](http://jackhai.qiniudn.com/3.png)
 
 4、![](http://jackhai.qiniudn.com/4_总结.png)
-
 
 
 
