@@ -25,7 +25,7 @@
   <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
   
 
-<meta name="generator" content="Hexo 7.1.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 <body>
@@ -94,13 +94,13 @@
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintClassHistogram</span><br></pre></td></tr></table></figure>
 <p>解释：如上，按下Ctrl+Break后，打印类的信息。<br>例如：<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/jvm3.png"></p>
-<h2 id="二、堆的分配参数："><a href="#二、堆的分配参数：" class="headerlink" title="二、堆的分配参数："></a>二、堆的分配参数：</h2><p>1、**-Xmx –Xms：指定最大堆和最小堆**<br>举例：</p>
+<h2 id="二、堆的分配参数："><a href="#二、堆的分配参数：" class="headerlink" title="二、堆的分配参数："></a>二、堆的分配参数：</h2><p>1、<strong>-Xmx –Xms：指定最大堆和最小堆</strong><br>举例：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx20m -Xms5m</span><br></pre></td></tr></table></figure>
 
-<p>2、-Xmn、-XX:NewRatio、-XX:SurvivorRatio<br>    -Xmn 设置新生代大小<br>    -XX:NewRatio  新生代（eden+2*s）和老年代（不包含永久区）的比值<br>    　　　　      例如：4，表示新生代:老年代&#x3D;1:4，即新生代占整个堆的1&#x2F;5<br>    -XX:SurvivorRatio（幸存代）设置两个Survivor区和eden的比值<br>    　　　　          例如：8，表示两个Survivor:eden&#x3D;2:8，即一个Survivor占新生代的1&#x2F;10<br>举例：</p>
+<p>2、-Xmn、-XX:NewRatio、-XX:SurvivorRatio<br>	-Xmn 设置新生代大小<br>	-XX:NewRatio  新生代（eden+2*s）和老年代（不包含永久区）的比值<br>    　　　　      例如：4，表示新生代:老年代&#x3D;1:4，即新生代占整个堆的1&#x2F;5<br>	-XX:SurvivorRatio（幸存代）设置两个Survivor区和eden的比值<br>    　　　　          例如：8，表示两个Survivor:eden&#x3D;2:8，即一个Survivor占新生代的1&#x2F;10<br>举例：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx20m -Xms20m -Xmn7m -XX:SurvivorRatio=2 -XX:+PrintGCDetails</span><br></pre></td></tr></table></figure>
 
-<p>3、-XX:+HeapDumpOnOutOfMemoryError、-XX:+HeapDumpPath<br>    -XX:+HeapDumpOnOutOfMemoryError  OOM时导出堆到文件，根据这个文件，我们可以看到系统dump时发生了什么<br>    -XX:+HeapDumpPath   导出OOM的路径<br>举例：</p>
+<p>3、-XX:+HeapDumpOnOutOfMemoryError、-XX:+HeapDumpPath<br>	-XX:+HeapDumpOnOutOfMemoryError  OOM时导出堆到文件，根据这个文件，我们可以看到系统dump时发生了什么<br>	-XX:+HeapDumpPath   导出OOM的路径<br>举例：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx20m -Xms5m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=d:/a.dump</span><br></pre></td></tr></table></figure>
 
 <p>如上意思是说，现在给堆内存最多分配20M的空间。如果发生了OOM异常，那就把dump信息导出到d:&#x2F;a.dump文件中。</p>
@@ -120,7 +120,7 @@
 <p>举例：<br>我们知道，使用CGLIB等库的时候，可能会产生大量的类，这些类，有可能撑爆永久区导致OOM。于是，我们运行下面这段代码：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(int i=0;i&lt;100000;i++)&#123;</span><br><span class="line">　　CglibBean bean = new CglibBean(&quot;geym.jvm.ch3.perm.bean&quot;+i,new HashMap());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>上面这段代码会在永久区不断地产生新的类，导致OOM。<br>总结：<strong>如果堆空间没有用完也抛出了OOM，有可能是永久区导致的。</strong>堆空间实际占用非常少，但是永久区溢出一样抛出OOM。</p>
+<p>上面这段代码会在永久区不断地产生新的类，导致OOM。<br>总结：**如果堆空间没有用完也抛出了OOM，有可能是永久区导致的。**堆空间实际占用非常少，但是永久区溢出一样抛出OOM。</p>
 <h2 id="三、栈的分配参数："><a href="#三、栈的分配参数：" class="headerlink" title="三、栈的分配参数："></a>三、栈的分配参数：</h2><p>-Xss</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">设置栈空间的大小。通常只有几百K</span><br><span class="line">　　决定了函数调用的深度</span><br><span class="line">　　每个线程都有独立的栈空间</span><br><span class="line">　　局部变量、参数 分配在栈上</span><br></pre></td></tr></table></figure>
 
@@ -298,7 +298,7 @@
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2024 李振海
+  &copy; 2026 李振海
   
 </div>
 <div class="clearfix"></div></footer>

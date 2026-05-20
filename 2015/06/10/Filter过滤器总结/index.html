@@ -25,7 +25,7 @@
   <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
   
 
-<meta name="generator" content="Hexo 7.1.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 <body>
@@ -69,7 +69,8 @@
 <li>在HttpServletRequest 到达 Servlet 之前，拦截客户的 HttpServletRequest 。根据需要检查 HttpServletRequest ，也可以修改HttpServletRequest 头和数据。</li>
 <li>在 HttpServletResponse 到达客户端之前，拦截 HttpServletResponse 。根据需要检查  HttpServletResponse ，也可以修改 HttpServletResponse头和数据。</li>
 </ul>
-<h2 id="2-如何实现拦截"><a href="#2-如何实现拦截" class="headerlink" title="2. 如何实现拦截"></a>2. 如何实现拦截</h2><p>　　Filter接口中有一个doFilter方法，当开发人员编写好Filter，并配置对哪个web资源进行拦截后，WEB服务器每次在调用web资源的service方法之前，都会先调用一下filter的doFilter方法，因此，在该方法内编写代码可达到如下目的：</p>
+<h2 id="2-如何实现拦截"><a href="#2-如何实现拦截" class="headerlink" title="2. 如何实现拦截"></a>2. 如何实现拦截</h2><p>　　Filter接口中有一个doFilter方法，当开发人员编写好Filter，并配置对哪个web资源进行拦截后，WEB服务器每次在调用web资源的service方法之前，都会先调用一下filter的doFilter方法，因此，在该方法内编写代码可达到如下目的：
+	</p>
 <ul>
 <li>调用目标资源之前，让一段代码执行。</li>
 <li>是否调用目标资源（即是否让用户访问web资源）。</li>
@@ -105,7 +106,8 @@
 <p>这个方法完成实际的过滤操作。当客户请求访问与过滤器关联的URL（目标资源）的时候，Servlet过滤器将先执行doFilter方法。FilterChain参数用于访问后续过滤器。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span>;<span class="comment">//销毁</span></span><br></pre></td></tr></table></figure>
 
-<p>服务器在创建Filter对象之后，把Filter放到缓存中一直使用（会驻留在内存），通常不会销毁它，当web应用移除或服务器停止时才销毁Filter对象。在Web容器卸载 Filter 对象之前被调用。该方法在Filter的生命周期中仅执行一次。在这个方法中，可以释放过滤器使用的资源。</p>
+<p>服务器在创建Filter对象之后，把Filter放到缓存中一直使用（会驻留在内存），通常不会销毁它，当web应用移除或服务器停止时才销毁Filter对象。在Web容器卸载 Filter 对象之前被调用。该方法在Filter的生命周期中仅执行一次。在这个方法中，可以释放过滤器使用的资源。
+	</p>
 <h2 id="6-FilterConfig接口"><a href="#6-FilterConfig接口" class="headerlink" title="6. FilterConfig接口"></a>6. FilterConfig接口</h2><p>　　<br>　　用户在配置filter时，可以使用为filter配置一些初始化参数，当web容器实例化Filter对象，调用其init方法时，会把封装了filter初始化参数的filterConfig对象传递进来。因此开发人员在编写filter时，通过filterConfig对象的方法，就可获得以下内容：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String <span class="title function_">getFilterName</span><span class="params">()</span>;<span class="comment">//得到filter的名称；与&lt;filter-name&gt;元素对应。</span></span><br><span class="line">String <span class="title function_">getInitParameter</span><span class="params">(String name)</span>;<span class="comment">//返回在部署描述中指定名称的初始化参数的值。如果不存在返回null，与&lt;init-param&gt;元素对应。</span></span><br><span class="line">Enumeration <span class="title function_">getInitParameterNames</span><span class="params">()</span>;<span class="comment">//返回过滤器的所有初始化参数的名字的枚举集合。</span></span><br><span class="line"><span class="keyword">public</span> ServletContext <span class="title function_">getServletContext</span><span class="params">()</span>;<span class="comment">//返回Servlet上下文对象的引用。</span></span><br></pre></td></tr></table></figure>
 
@@ -332,7 +334,7 @@
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2024 李振海
+  &copy; 2026 李振海
   
 </div>
 <div class="clearfix"></div></footer>

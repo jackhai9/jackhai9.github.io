@@ -25,7 +25,7 @@
   <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
   
 
-<meta name="generator" content="Hexo 7.1.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 <body>
@@ -80,7 +80,7 @@
 <h3 id="2-1-Mark-Sweep（标记-清除）算法"><a href="#2-1-Mark-Sweep（标记-清除）算法" class="headerlink" title="2.1 Mark-Sweep（标记-清除）算法"></a>2.1 Mark-Sweep（标记-清除）算法</h3><p>是最基础的垃圾回收算法，之所以说它是最基础的是因为它最容易实现，思想也是最简单的。分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象所占用的空间。标记过程就是上面可达性分析算法中所讲的二次标记过程。<br>缺点：<br>（1）效率问题：标记和清除的两个过程效率都不高；<br>（2）空间问题：标记清除后会产生大量不连续的内存碎片，空间碎片太多可能会导致以后需要分配较大对象时，无法找到足够的连续内存而不得不提前出发另一次垃圾收集动作；</p>
 <h3 id="2-2-Copying（复制）算法"><a href="#2-2-Copying（复制）算法" class="headerlink" title="2.2 Copying（复制）算法"></a>2.2 Copying（复制）算法</h3><p>为了解决Mark-Sweep算法的缺陷，Copying算法就被提了出来。它将可用内存按容量划分为<strong>大小相等</strong>的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用的内存空间一次清理掉，这样一来就不容易出现内存碎片的问题。<br>优点：运行高效且不容易产生内存碎片；<br>缺点：能够使用的内存缩减到原来的一半。</p>
 <h3 id="2-3-Mark-Compact（标记-整理）算法"><a href="#2-3-Mark-Compact（标记-整理）算法" class="headerlink" title="2.3 Mark-Compact（标记-整理）算法"></a>2.3 Mark-Compact（标记-整理）算法</h3><p>为了解决Copying算法的缺陷，充分利用内存空间，提出了Mark-Compact算法。该算法标记阶段和Mark-Sweep一样，但是在完成标记之后，它不是直接清理可回收对象，而是<strong>将存活对象都向一端移动</strong>，然后清理掉端边界以外的内存。</p>
-<h3 id="2-4-Generational-Collection（分代收集）算法"><a href="#2-4-Generational-Collection（分代收集）算法" class="headerlink" title="2.4 Generational Collection（分代收集）算法"></a>2.4 Generational Collection（分代收集）算法</h3><p><strong>分代收集算法是目前大部分JVM的垃圾收集器采用的算法</strong>。它是基于这样一个事实：<strong>不同对象的生命周期是不一样的</strong>。因此，不同生命周期的对象可以采取不同的回收算法，以便提高回收效率。它的核心思想是根据对象存活的生命周期<strong>将内存划分为若干个不同的区域</strong>。一般情况下将堆区划分为<strong>老年代</strong>（Tenured Generation）和<strong>新生代</strong>（Young Generation），**老年代内存比新生代也大很多(大概比例是2:1)**，老年代的特点是每次垃圾收集时只有少量对象需要被回收，而新生代的特点是每次垃圾回收时都有大量的对象需要被回收，那么就可以根据不同代的特点采取最适合的收集算法。</p>
+<h3 id="2-4-Generational-Collection（分代收集）算法"><a href="#2-4-Generational-Collection（分代收集）算法" class="headerlink" title="2.4 Generational Collection（分代收集）算法"></a>2.4 Generational Collection（分代收集）算法</h3><p><strong>分代收集算法是目前大部分JVM的垃圾收集器采用的算法</strong>。它是基于这样一个事实：<strong>不同对象的生命周期是不一样的</strong>。因此，不同生命周期的对象可以采取不同的回收算法，以便提高回收效率。它的核心思想是根据对象存活的生命周期<strong>将内存划分为若干个不同的区域</strong>。一般情况下将堆区划分为<strong>老年代</strong>（Tenured Generation）和<strong>新生代</strong>（Young Generation），<strong>老年代内存比新生代也大很多(大概比例是2:1)</strong>，老年代的特点是每次垃圾收集时只有少量对象需要被回收，而新生代的特点是每次垃圾回收时都有大量的对象需要被回收，那么就可以根据不同代的特点采取最适合的收集算法。</p>
 <p><strong>新生代</strong><br><strong>目前大部分垃圾收集器对于新生代都采取Copying算法</strong>，因为新生代中每次垃圾回收都要回收大部分对象，也就是说需要复制的操作次数较少，但是实际中并不是按照1：1的比例来划分新生代的空间，一般来说是按照<strong>8:1:1</strong>的比例划<strong>分为一个Eden区和两个Survivor(Survivor0,Survivor1)区</strong>。每次使用Eden空间和其中的一块Survivor空间，当进行回收时，将Eden和Survivor0中还存活的对象复制到另一块Survivor1空间中，然后清理掉Eden和Survivor0空间。此时survivor0区是空的，然后将survivor0区和survivor1区交换，即保持survivor1区为空，如此往复。当对象在Survivor区躲过一次GC的话，其对象年龄便会加1，默认情况下，如果对象年龄达到15岁，就会移动到老年代中。<br>当survivor1区不足以存放Eden和survivor0的存活对象时，就将存活对象直接存放到老年代。【若是老年代也满了就会触发一次Full GC，也就是新生代、老年代都进行回收。】<br>新生代发生的GC也叫做Minor GC，MinorGC发生频率比较高(不一定等Eden区满了才触发)。</p>
 <p><strong>老年代</strong><br>而由于老年代的特点是每次回收都只回收少量对象，<strong>一般使用的是Mark-Compact算法</strong>。<br>在年轻代中经历了N次垃圾回收后仍然存活的对象，就会被放到年老代中。因此，可以认为年老代中存放的都是一些生命周期较长的对象。<br>当老年代内存满时触发Major GC即Full GC，Full GC发生频率比较低，老年代对象存活时间比较长，存活率标记高。<br>一般来说，大对象会被直接分配到老年代，所谓的大对象是指需要大量连续存储空间的对象，最常见的一种大对象就是大数组，比如：<br>byte[] data &#x3D; new byte[4<em>1024</em>1024]<br>这种一般会直接在老年代分配存储空间。当然分配的规则并不是百分之百固定的，这要取决于当前使用的是哪种垃圾收集器组合和JVM的相关参数。</p>
 <h2 id="三-典型的垃圾回收器"><a href="#三-典型的垃圾回收器" class="headerlink" title="三.典型的垃圾回收器"></a>三.典型的垃圾回收器</h2><p>如果说上面介绍的收集算法是内存回收的方法论，那么垃圾收集器就是内存回收的具体实现，按照上面的介绍，目前垃圾收集器基本都采用分代收集。<strong>没有最好的垃圾收集器，只有最好的收集器组合</strong>。一款收集器的好坏，主要有两个指标：<strong>停顿时间和吞吐量</strong>。不同的虚拟机提供的垃圾收集器也有很大差异，如下是HotSpot虚拟机基于JDK1.7版本所包含的所有垃圾收集器，如果两个收集器之间有连线，则说明它们可以搭配使用:<br><img src="http://7qna9x.com1.z0.glb.clouddn.com/gc.jpg"><br>并发和并行<br>这两个名词都是并发编程中的概念，在谈论垃圾收集器的上下文语境中，它们可以解释如下：<br>     并行（Parallel）：指多条垃圾收集线程并行工作，但此时用户线程仍然处于等待状态。<br>     并发（Concurrent）：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户程序在继续运行，而垃圾收集程序运行于另一个CPU上。</p>
@@ -279,7 +279,7 @@
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2024 李振海
+  &copy; 2026 李振海
   
 </div>
 <div class="clearfix"></div></footer>
