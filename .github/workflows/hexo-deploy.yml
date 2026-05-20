@@ -9,21 +9,17 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         ref: source
         submodules: true  # 如果你的仓库使用子模块
     - name: Setup Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: '20.x'  # 使用合适的Node.js版本
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        cache: npm
     - name: Install dependencies
-      run: npm install
+      run: npm ci
     - name: Install Hexo CLI
       run: npm install -g hexo-cli
     - name: Generate static files
